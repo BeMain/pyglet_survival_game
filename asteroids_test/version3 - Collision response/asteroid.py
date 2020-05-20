@@ -29,9 +29,7 @@ def on_draw():
 
 
 def update(dt):
-    for obj in game_objects:
-        obj.update(dt)
-    
+    # Collision
     for i in range(len(game_objects)):
         for j in range(i+1, len(game_objects)):
             obj_1 = game_objects[i]
@@ -42,10 +40,25 @@ def update(dt):
                     obj_1.handle_collision_with(obj_2)
                     obj_2.handle_collision_with(obj_1)
     
+
+    to_add = []
+
+    # Updating
+    for obj in game_objects:
+        obj.update(dt)
+
+        # Add new objects to to_add
+        to_add.extend(obj.new_objects)
+        obj.new_objects = []
+    
+    # Remove objects
     for to_remove in [obj for obj in game_objects if obj.dead]:
         to_remove.delete()
         game_objects.remove(to_remove)
 
+
+    # Spawn new objects by adding them to game_objects
+    game_objects.extend(to_add)
 
 
 

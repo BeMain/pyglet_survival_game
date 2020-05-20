@@ -1,7 +1,7 @@
 import math
 import pyglet
 from pyglet.window import key
-from . import physicalobject, resources
+from . import physicalobject, resources, bullet
 
 
 class Player(physicalobject.PhysicalObject):
@@ -16,6 +16,8 @@ class Player(physicalobject.PhysicalObject):
 
         self.engine_sprite = pyglet.sprite.Sprite(img=resources.engine_image, *args, **kwargs)
         self.engine_sprite.visible=False
+
+        self.bullet_speed = 700.0
 
 
     def update(self, dt):
@@ -44,6 +46,19 @@ class Player(physicalobject.PhysicalObject):
         else:
             self.engine_sprite.visible = False
     
+    
+    def on_key_press(self, symbol, modifiers):
+        if symbol == key.SPACE:
+            self.fire()
+
+    # Fire a bullet
+    def fire(self):
+        angle_radians = -math.radians(self.rotation)
+        ship_radius = self.image.width/2
+        bullet_x = self.x + math.cos(angle_radians) * ship_radius
+        bullet_y = self.y + math.sin(angle_radians) * ship_radius
+        new_bullet = bullet.Bullet(bullet_x, bullet_y, batch=self.batch)
+
     
     def delete(self):
         self.engine_sprite.delete()
