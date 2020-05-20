@@ -1,7 +1,7 @@
 import pyglet
 import random
 import math
-from . import resources
+from . import resources, physicalobject
 
 
 def asteroids(num_asteroids, player_position, batch=None):
@@ -12,9 +12,11 @@ def asteroids(num_asteroids, player_position, batch=None):
             asteroid_x = random.randint(0, 800)
             asteroid_y = random.randint(0, 600)
 
-        new_asteroid = pyglet.sprite.Sprite(
+        new_asteroid = physicalobject.PhysicalObject(
             img=resources.asteroid_image, x=asteroid_x, y=asteroid_y, batch=batch)
         new_asteroid.rotation = random.randint(0, 360)
+        new_asteroid.velocity_x = random.random()*40
+        new_asteroid.velocity_y = random.random()*40
 
         asteroids.append(new_asteroid)
     return asteroids
