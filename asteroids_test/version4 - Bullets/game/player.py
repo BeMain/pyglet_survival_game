@@ -1,4 +1,5 @@
-import pyglet, math
+import pyglet
+import math
 from pyglet.window import key
 from . import bullet, physicalobject, resources
 
@@ -7,10 +8,12 @@ class Player(physicalobject.PhysicalObject):
     """Physical object that responds to user input"""
 
     def __init__(self, *args, **kwargs):
-        super(Player, self).__init__(img=resources.player_image, *args, **kwargs)
+        super(Player, self).__init__(
+            img=resources.player_image, *args, **kwargs)
 
         # Create a child sprite to show when the ship is thrusting
-        self.engine_sprite = pyglet.sprite.Sprite(img=resources.engine_image, *args, **kwargs)
+        self.engine_sprite = pyglet.sprite.Sprite(
+            img=resources.engine_image, *args, **kwargs)
         self.engine_sprite.visible = False
 
         # Set some easy-to-tweak constants
@@ -66,15 +69,17 @@ class Player(physicalobject.PhysicalObject):
         new_bullet = bullet.Bullet(bullet_x, bullet_y, batch=self.batch)
 
         # Give it some speed
-        bullet_vx = self.velocity_x + math.cos(angle_radians) * self.bullet_speed
-        bullet_vy = self.velocity_y + math.sin(angle_radians) * self.bullet_speed
+        bullet_vx = self.velocity_x + \
+            math.cos(angle_radians) * self.bullet_speed
+        bullet_vy = self.velocity_y + \
+            math.sin(angle_radians) * self.bullet_speed
         new_bullet.velocity_x, new_bullet.velocity_y = bullet_vx, bullet_vy
 
         # Add it to the list of objects to be added to the game_objects list
         self.new_objects.append(new_bullet)
 
         # Play the bullet sound
-        resources.bullet_sound.play()
+        # resources.bullet_sound.play()
 
     def delete(self):
         # We have a child sprite which must be deleted when this object
