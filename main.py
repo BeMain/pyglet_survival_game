@@ -1,10 +1,10 @@
 import pyglet
 from pyglet.window import key
 
-from game import player
+from game import player, constants
 
 
-game_window = pyglet.window.Window()
+game_window = pyglet.window.Window(constants.SCREEN_HEIGHT, constants.SCREEN_WIDTH)
 main_batch = pyglet.graphics.Batch()
 
 player_sprite = player.Player(batch=main_batch)
