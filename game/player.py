@@ -2,7 +2,7 @@ import pyglet
 import math
 from pyglet.window import key
 
-from . import physics_object, resources, util, constants
+from game import physics_object, resources, util, constants
 
 
 class Player(physics_object.PhysicsObject):
@@ -37,5 +37,3 @@ class Player(physics_object.PhysicsObject):
         else:
             self.velx = 0
             self.vely = 0
-    
-

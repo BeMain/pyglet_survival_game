@@ -13,3 +13,6 @@ def center_image(image):
 
 player_image = pyglet.resource.image("player.png")
 center_image(player_image)
+
+tile_image = pyglet.resource.image("test_10x10.png")
+center_image(tile_image)
