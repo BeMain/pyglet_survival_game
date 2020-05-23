@@ -1,3 +1,4 @@
+from game import resources
 from game.terrain import tile, terrain_generation
 
 
@@ -11,7 +12,7 @@ def terrain(size_x, size_y, *args, **kwargs):
     for x in range(size_x):
         for y in range(size_y):
             new_tile = tile.Tile(*args, **kwargs)
-            new_tile.scale = 0.5
+            new_tile.scale = 2
             new_tile.x = new_tile.width * x
             new_tile.y = new_tile.height * y
 
@@ -21,3 +22,9 @@ def terrain(size_x, size_y, *args, **kwargs):
             tiles.append(new_tile)
 
     return tiles
+
+
+def terrain_new(size_x, size_y):
+    p_terrain = terrain_generation.perlin_terrain(size_x, size_y, octaves=2)
+
+    return p_terrain

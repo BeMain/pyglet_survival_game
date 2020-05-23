@@ -24,16 +24,3 @@ class Player(physics_object.PhysicsObject):
             self.rotation -= self.rotate_speed * dt
         if self.key_handler[key.RIGHT]:
             self.rotation += self.rotate_speed * dt
-
-        # Handle movement
-        if self.key_handler[key.UP]:
-            rot_rad = -math.radians(self.rotation)
-
-            dx = math.cos(rot_rad) * self.move_speed * dt
-            dy = math.sin(rot_rad) * self.move_speed * dt
-
-            self.velx = dx
-            self.vely = dy
-        else:
-            self.velx = 0
-            self.vely = 0

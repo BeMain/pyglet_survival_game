@@ -1,6 +1,6 @@
 import pyglet
 
-from . import constants, util
+from game import constants, util
 
 
 class PhysicsObject(pyglet.sprite.Sprite):

@@ -14,4 +14,5 @@ def perlin_terrain(size_x, size_y, octaves=1, threshold=0.5):
             # col.append(pixel)
         terrain.append(col)
 
+    # print(terrain)
     return terrain
