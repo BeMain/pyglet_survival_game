@@ -22,7 +22,7 @@ class Player(physics_object.PhysicsObject):
     def update(self, dt):
         super(Player, self).update()
 
-        update_required = False
+        redraw_required = False
 
         # Handle rotation
         if self.key_handler[key.LEFT]:
@@ -33,16 +33,16 @@ class Player(physics_object.PhysicsObject):
         # Handle movement
         speed = dt * self.move_speed
         if self.key_handler[key.RIGHT]:
-            self.world_x -= speed
-            update_required = True
-        if self.key_handler[key.LEFT]:
             self.world_x += speed
-            update_required = True
+            redraw_required = True
+        if self.key_handler[key.LEFT]:
+            self.world_x -= speed
+            redraw_required = True
         if self.key_handler[key.UP]:
-            self.world_y -= speed
-            update_required = True
-        if self.key_handler[key.DOWN]:
             self.world_y += speed
-            update_required = True
+            redraw_required = True
+        if self.key_handler[key.DOWN]:
+            self.world_y -= speed
+            redraw_required = True
 
-        return update_required
+        return redraw_required

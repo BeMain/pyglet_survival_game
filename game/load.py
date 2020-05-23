@@ -12,7 +12,7 @@ def terrain(size_x, size_y, *args, **kwargs):
     for x in range(size_x):
         for y in range(size_y):
             new_tile = tile.Tile(*args, **kwargs)
-            new_tile.scale = 2
+            new_tile.scale = 1
             new_tile.x = new_tile.width * x
             new_tile.y = new_tile.height * y
 

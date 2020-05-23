@@ -16,8 +16,6 @@ class Tile(pyglet.sprite.Sprite):
         self.velx = 0.0
         self.vely = 0.0
 
-        self.scale = 2
-
     def update(self, dt):
         # Check if outside screen
         if self.x < 0 or self.x > constants.SCREEN_WIDTH or self.y < 0 or self.y > constants.SCREEN_HEIGHT:
