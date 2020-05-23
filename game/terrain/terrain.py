@@ -16,14 +16,20 @@ class Terrain():
 
     def update(self, player_x, player_y, batch=None, group=None):
         # This way of loading tiles is terrible for performance
-        # TODO: Implement a way to precedurally refresh tiles when they load/unload instead of loading all tiles every time
+        # TODO: Implement a better way to precedurally refresh tiles when they load/unload instead of loading all tiles every time
 
-        # Clear terrain
-        for t in self.tiles:
+        new_tiles = self.get_tiles_on_screen(player_x, player_y)
+
+        # Remove tiles outside screen
+        new_set = set(new_tiles)
+        old_set = set(self.tiles)
+        to_remove = list(old_set - new_set)
+
+        for t in to_remove:
             t.delete()
-        # Get the parts that are on screen
-        self.tiles = self.get_tiles_on_screen(
-            player_x, player_y)
+
+        # And apply changes
+        self.tiles = new_tiles
 
     def get_tiles_on_screen(self, player_x, player_y):
         # TODO: Use a json file for storing the terrain
