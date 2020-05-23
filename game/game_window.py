@@ -14,7 +14,7 @@ class GameWindow(pyglet.window.Window):
                                          constants.SCREEN_HEIGHT, vsync=False, *args, **kwargs)
         self.running = True
         self.last_scheduled_update = time.time()
-        self.keys = dict(left=False, right=False, up=False, down=False)
+        self.key_handler = key.KeyStateHandler()
 
         self.main_batch = pyglet.graphics.Batch()
 
@@ -29,13 +29,11 @@ class GameWindow(pyglet.window.Window):
 
         self.game_objects = [self.player_sprite]
 
-        self.player_x = 1000.0
-        self.player_y = 1000.0
-
         # Register event handlers
         for obj in self.game_objects:
             for handler in obj.event_handlers:
                 self.push_handlers(handler)
+        self.push_handlers(self.key_handler)
 
     def render(self):
         self.clear()
@@ -46,48 +44,19 @@ class GameWindow(pyglet.window.Window):
         self.flip()
 
     def update(self, dt):
+        update_required = False
         # Update all objects
-        # for obj in game_objects:
-        #   obj.update(dt)
+        for obj in self.game_objects:
+            if obj.update(dt):
+                update_required = True
 
-        # TODO: Clean up this mess
-        if True in self.keys.values():
-            speed = dt * 400
-
-            if self.keys["right"]:
-                self.player_x -= speed
-            if self.keys["left"]:
-                self.player_x += speed
-            if self.keys["up"]:
-                self.player_y -= speed
-            if self.keys["down"]:
-                self.player_y += speed
-
+        if update_required:
             self.terrain.update_tiles(
-                self.player_x, self.player_y, batch=self.main_batch, group=self.terrain_group)
+                self.player_sprite.world_x, self.player_sprite.world_y)
 
     def on_key_press(self, symbol, modifiers):
-        if symbol == key.UP:
-            self.keys["up"] = True
-        if symbol == key.DOWN:
-            self.keys["down"] = True
-        if symbol == key.RIGHT:
-            self.keys["right"] = True
-        if symbol == key.LEFT:
-            self.keys["left"] = True
-
         if symbol == key.ESCAPE:  # [ESC]
             self.running = False
-
-    def on_key_release(self, symbol, modifiers):
-        if symbol == key.UP:
-            self.keys["up"] = False
-        if symbol == key.DOWN:
-            self.keys["down"] = False
-        if symbol == key.RIGHT:
-            self.keys["right"] = False
-        if symbol == key.LEFT:
-            self.keys["left"] = False
 
     def run(self):
         self.last_scheduled_update = time.time()

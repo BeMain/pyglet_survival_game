@@ -13,14 +13,36 @@ class Player(physics_object.PhysicsObject):
         self.key_handler = key.KeyStateHandler()
         self.event_handlers = [self, self.key_handler]
 
-        self.move_speed = 100.0
+        self.move_speed = 500.0
         self.rotate_speed = 200.0
+
+        self.world_x = 1000.0
+        self.world_y = 1000.0
 
     def update(self, dt):
         super(Player, self).update()
+
+        update_required = False
 
         # Handle rotation
         if self.key_handler[key.LEFT]:
             self.rotation -= self.rotate_speed * dt
         if self.key_handler[key.RIGHT]:
             self.rotation += self.rotate_speed * dt
+
+        # Handle movement
+        speed = dt * self.move_speed
+        if self.key_handler[key.RIGHT]:
+            self.world_x -= speed
+            update_required = True
+        if self.key_handler[key.LEFT]:
+            self.world_x += speed
+            update_required = True
+        if self.key_handler[key.UP]:
+            self.world_y -= speed
+            update_required = True
+        if self.key_handler[key.DOWN]:
+            self.world_y += speed
+            update_required = True
+
+        return update_required
