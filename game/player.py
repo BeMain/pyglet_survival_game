@@ -13,7 +13,7 @@ class Player(physics_object.PhysicsObject):
         self.key_handler = key.KeyStateHandler()
         self.event_handlers = [self, self.key_handler]
 
-        self.move_speed = 500.0
+        self.move_speed = 50.0
         self.rotate_speed = 200.0
 
         self.world_x = 1000.0

@@ -3,7 +3,7 @@ import math
 import numpy as np
 
 from game import load, constants, resources
-from game.terrain import tile
+from game.terrain import tile, data_handler, chunk
 
 
 # TODO: Implement zooming in and out
@@ -12,6 +12,7 @@ class Terrain():
     def __init__(self, batch=None, group=None, *args, **kwargs):
         self.terrain = load.terrain_new(200, 200)
         self.tiles = []
+        self.chunks = {}
         self.key_handler = key.KeyStateHandler()
 
         self.batch = batch
@@ -21,21 +22,9 @@ class Terrain():
         # This way of loading tiles is terrible for performance
         # TODO: Implement a better way to precedurally refresh tiles when they load/unload instead of loading all tiles every time
 
-        new_tiles = self.get_tiles_on_screen(player_x, player_y)
-
-        # Remove tiles outside screen
-        new_set = set(new_tiles)
-        old_set = set(self.tiles)
-        to_remove = list(old_set - new_set)
-
-        for t in to_remove:
-            t.delete()
-
-        # And apply changes
-        self.tiles = new_tiles
+        self.get_chunks_on_screen(player_x, player_y)
 
     def get_tiles_on_screen(self, player_x, player_y):
-        # TODO: Use a json file for storing the terrain
         min_x = player_x - constants.SCREEN_WIDTH / 2
         min_y = player_y - constants.SCREEN_HEIGHT / 2
 
@@ -62,8 +51,9 @@ class Terrain():
                 tiles.append(new_tile)
         return tiles
 
+    # Using numpy.array and slicing
     def get_tiles_on_screen2(self, player_x, player_y):
-        # TODO: Use a json file for storing the terrain
+        # TODO: Replace with a chunk-based system
         min_x = player_x - constants.SCREEN_WIDTH / 2
         min_y = player_y - constants.SCREEN_HEIGHT / 2
         max_x = player_x + constants.SCREEN_WIDTH / 2
@@ -74,11 +64,11 @@ class Terrain():
         world_max_x = int(max_x // resources.tile_image.width) + 2
         world_max_y = int(max_y // resources.tile_image.height) + 2
 
-        arr = np.array(self.terrain)
-        arr = arr[world_min_x:world_max_x, world_min_y:world_max_y]
-
         offset_x = min_x % resources.tile_image.width
         offset_y = min_y % resources.tile_image.height
+
+        arr = np.array(self.terrain)
+        arr = arr[world_min_x:world_max_x, world_min_y:world_max_y]
 
         tiles = []
         for x in range(len(arr)):
@@ -91,3 +81,42 @@ class Terrain():
 
                 tiles.append(new_tile)
         return tiles
+
+    def get_chunks_on_screen(self, player_x, player_y):
+        min_x = player_x - constants.SCREEN_WIDTH / 2
+        min_y = player_y - constants.SCREEN_HEIGHT / 2
+        max_x = player_x + constants.SCREEN_WIDTH / 2
+        max_y = player_y + constants.SCREEN_HEIGHT / 2
+
+        chunk_min_x = int(
+            min_x // resources.tile_image.width) // constants.CHUNK_SIZE
+        chunk_min_y = int(
+            min_y // resources.tile_image.height) // constants.CHUNK_SIZE
+        chunk_max_x = int(
+            max_x // resources.tile_image.width) // constants.CHUNK_SIZE
+        chunk_max_y = int(
+            max_y // resources.tile_image.height) // constants.CHUNK_SIZE
+
+        offset_x = min_x % resources.tile_image.width
+        offset_y = min_y % resources.tile_image.height
+
+        print("Chunk min: {}, max: {}".format(chunk_min_x, chunk_max_x))
+
+        old_keys = self.chunks.keys() if self.chunks else []
+        new_keys = []
+
+        for x in range(chunk_min_x, chunk_max_x):
+            for y in range(chunk_min_y, chunk_max_y):
+                new_keys.append((x, y))
+                if not ((x, y) in old_keys):
+                    c = chunk.Chunk(x, y, batch=self.batch, group=self.group)
+                    c.set_pos((x - chunk_min_x) * constants.CHUNK_SIZE * resources.tile_image.width,
+                              (y - chunk_min_y) * constants.CHUNK_SIZE * resources.tile_image.height)
+                    self.chunks[(x, y)] = c
+                print(x, (x - chunk_min_x) * constants.CHUNK_SIZE *
+                      resources.tile_image.width)
+
+        to_remove = set(old_keys) - set(new_keys)
+        for key in to_remove:
+            self.chunks[key].delete()
+            del self.chunks[key]

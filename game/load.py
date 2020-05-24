@@ -25,6 +25,6 @@ def terrain(size_x, size_y, *args, **kwargs):
 
 
 def terrain_new(size_x, size_y):
-    p_terrain = terrain_generation.perlin_terrain(size_x, size_y, octaves=2)
+    p_terrain = terrain_generation.perlin_terrain(size_x, size_y)
 
     return p_terrain
