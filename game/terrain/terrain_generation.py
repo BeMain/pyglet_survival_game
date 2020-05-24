@@ -4,18 +4,18 @@ from noise import pnoise2, snoise2
 from game import constants
 
 
-# TODO: Fix problem with terrain not generating continuesly. There are "holes" in the terrain
+threshold = 0.55
+octaves = 2
+freq = 16.0 * octaves
+
 
 def generate_chunk(chunk_x, chunk_y):
-    threshold = 0.5
-
-    octaves = 1
-    freq = 16.0 * octaves
+    global threshold
+    global octaves
+    global freq
 
     world_x = chunk_x * constants.CHUNK_SIZE
     world_y = chunk_y * constants.CHUNK_SIZE
-
-    #print(chunk_x, world_x)
 
     chunk = []
     for x in range(constants.CHUNK_SIZE):
@@ -26,7 +26,7 @@ def generate_chunk(chunk_x, chunk_y):
             t_data = {}
 
             t_data["color"] = (1 if pixel >= threshold else 0)
-            #dic["color"] = pixel
+            #t_data["color"] = pixel
             t_data["local_x"] = x
             t_data["local_y"] = y
 
