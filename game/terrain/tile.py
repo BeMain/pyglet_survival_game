@@ -13,5 +13,3 @@ class Tile(pyglet.sprite.Sprite):
     def set_pos(self, x, y):
         self.x = x + self.local_x * self.width
         self.y = y + self.local_y * self.height
-        print(x)
-        print("Tile.set_pos()", self.x)

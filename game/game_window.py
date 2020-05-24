@@ -4,7 +4,8 @@ from pyglet.window import key
 import time
 import math
 
-from game import constants, player
+from game import constants
+from game.objects import player
 from game.terrain import terrain
 
 
@@ -42,15 +43,15 @@ class GameWindow(pyglet.window.Window):
         self.flip()
 
     def update(self, dt):
-        redraw_required = False
+        redraw_needed = False
 
         # Update all objects
         for obj in self.game_objects:
             if obj.update(dt):
-                redraw_required = True
+                redraw_needed = True
 
-        # Only redraw terrain if required
-        if redraw_required:
+        # Only redraw terrain if needed
+        if redraw_needed:
             self.terrain.update(
                 self.player_sprite.world_x, self.player_sprite.world_y)
 

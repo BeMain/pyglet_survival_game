@@ -6,6 +6,7 @@ def read_chunk(chunk_x, chunk_y):
     path = "chunks/{}.{}".format(chunk_x, chunk_y)
     if os.path.exists(path):
         return pickle.load(open(path, "rb"))
+    # If the chunck deosn't exist, return None
     return None
 
 

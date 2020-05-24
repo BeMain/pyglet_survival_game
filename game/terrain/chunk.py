@@ -1,5 +1,3 @@
-import pyglet
-
 from game import resources
 from game.terrain import data_handler, terrain_generation, tile
 
@@ -22,7 +20,7 @@ class Chunk():
 
     def load_tiles(self):
         chunk = data_handler.read_chunk(self.chunk_x, self.chunk_y)
-        # print(chunk)
+        # If chunk doesn't exist, generate new
         if not chunk:
             chunk = terrain_generation.generate_chunk(
                 self.chunk_x, self.chunk_y)
