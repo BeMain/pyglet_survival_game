@@ -59,7 +59,6 @@ class GameWindow(pyglet.window.Window):
         if symbol == key.ESCAPE:
             self.running = False
 
-    # Main loop
     def run(self):
         self.last_scheduled_update = time.time()
 
@@ -67,6 +66,7 @@ class GameWindow(pyglet.window.Window):
         self.terrain.update(
             self.player_sprite.world_x, self.player_sprite.world_y)
 
+        # Main loop
         while self.running:
             if time.time() - self.last_scheduled_update > 1 / constants.FPS:
                 self.update(time.time() - self.last_scheduled_update)

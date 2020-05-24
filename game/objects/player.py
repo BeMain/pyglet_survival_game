@@ -12,7 +12,7 @@ class Player(physics_object.PhysicsObject):
             img=resources.player_image, *args, **kwargs)
 
         self.key_handler = key.KeyStateHandler()
-        self.event_handlers = [self, self.key_handler]
+        self.event_handlers = [self.key_handler]
 
         self.move_speed = 500.0
         self.rotate_speed = 200.0

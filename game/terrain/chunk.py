@@ -25,20 +25,22 @@ class Chunk():
             chunk = terrain_generation.generate_chunk(
                 self.chunk_x, self.chunk_y)
             data_handler.write_chunk(self.chunk_x, self.chunk_y, chunk)
-        self.tiles = list(map(lambda row: list(map(self.to_tile, row)), chunk))
 
-    def to_tile(self, t_data):
-        color = t_data["color"] * 255
-        new_tile = tile.Tile(
-            t_data["local_x"], t_data["local_y"], batch=self.batch, group=self.group)
-        new_tile.color = (color, color, color)
+        # Turn the 2d-list of dicts -> 2d-list of Tiles
+        self.tiles = list(
+            map(lambda col: list(map(self.load_tile, col)), chunk))
 
-        return new_tile
+    def load_tile(self, t_data):
+        return tile.Tile.from_data(t_data, batch=self.batch, group=self.group)
+
+    def to_data(self):
+        return list(
+            map(lambda col: list(map(lambda tile: tile.to_data(), col)), self.tiles))
 
     def delete(self):
-        for row in self.tiles:
-            for tile in row:
+        for col in self.tiles:
+            for tile in col:
                 tile.delete()
 
     def save(self):
-        data_handler.write_chunk(self.chunk_x, self.chunk_y, self.tiles)
+        data_handler.write_chunk(self.chunk_x, self.chunk_y, self.to_data())

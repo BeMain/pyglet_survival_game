@@ -1,3 +1,4 @@
+# TODO: Make these selectable within a main menu
 SCREEN_WIDTH = 1200
 SCREEN_HEIGHT = 700
 

@@ -11,15 +11,11 @@ from game.terrain import chunk
 class Terrain():
     def __init__(self, batch=None, group=None, *args, **kwargs):
         self.chunks = {}
-        self.key_handler = key.KeyStateHandler()
 
         self.batch = batch
         self.group = group
 
-    def update(self, player_x, player_y, batch=None, group=None):
-        # This way of loading tiles is terrible for performance
-        # TODO: Implement a better way to precedurally refresh tiles when they load/unload instead of loading all tiles every time
-
+    def update(self, player_x, player_y):
         self.get_chunks_on_screen(player_x, player_y)
 
     def get_chunks_on_screen(self, player_x, player_y):
