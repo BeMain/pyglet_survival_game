@@ -1,5 +1,6 @@
 import pickle
 import os
+import glob
 
 
 def read_chunk(chunk_x, chunk_y):
@@ -12,3 +13,9 @@ def read_chunk(chunk_x, chunk_y):
 
 def write_chunk(chunk_x, chunk_y, chunk):
     pickle.dump(chunk, open("chunks/{}.{}".format(chunk_x, chunk_y), "wb"))
+
+
+def clear_chunks():
+    files = glob.glob('chunks/*')
+    for f in files:
+        os.remove(f)
