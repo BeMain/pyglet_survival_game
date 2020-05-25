@@ -23,12 +23,16 @@ class Tile(pyglet.sprite.Sprite):
 
     @classmethod
     def from_data(cls, data, *args, **kwargs):
-        t = cls(*args, **kwargs)
+        if data["color"] == 0:
+            #return cls()
+            return None
+        else:
+            t = cls(*args, **kwargs)
 
-        t.local_x = data["local_x"]
-        t.local_y = data["local_y"]
+            t.local_x = data["local_x"]
+            t.local_y = data["local_y"]
 
-        color = data["color"] * 255
-        t.color = (color, color, color)
+            color = data["color"] * 255
+            t.color = (color, color, color)
 
-        return t
+            return t

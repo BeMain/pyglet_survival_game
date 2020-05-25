@@ -17,7 +17,8 @@ class Chunk():
     def set_pos(self, x, y):
         for row in self.tiles:
             for tile in row:
-                tile.set_pos(x, y)
+                if tile:
+                    tile.set_pos(x, y)
 
     def load_tiles(self):
         chunk = data_handler.read_chunk(self.chunk_x, self.chunk_y, self.chunk_z)
@@ -38,7 +39,8 @@ class Chunk():
     def delete(self):
         for col in self.tiles:
             for tile in col:
-                tile.delete()
+                if tile:
+                    tile.delete()
 
     def save(self):
         data_handler.write_chunk(self.chunk_x, self.chunk_y, self.chunk_z, self.to_data())

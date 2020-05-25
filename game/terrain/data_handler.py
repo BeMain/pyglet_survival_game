@@ -18,4 +18,5 @@ def write_chunk(chunk_x, chunk_y, chunk_z, chunk):
 
 
 def clear_chunks():
-    shutil.rmtree("chunks")
+    if os.path.exists("chunks/"):
+        shutil.rmtree("chunks/")

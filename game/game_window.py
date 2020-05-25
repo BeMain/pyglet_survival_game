@@ -4,7 +4,7 @@ from pyglet.window import key
 import time
 import math
 
-from game import constants
+from game import constants, resources
 from game.objects import player
 from game.terrain import terrain
 
@@ -37,6 +37,8 @@ class GameWindow(pyglet.window.Window):
     def render(self):
         self.clear()
 
+        resources.background_image.blit(100,100)
+
         self.main_batch.draw()
         self.fps_display.draw()
 
@@ -63,6 +65,7 @@ class GameWindow(pyglet.window.Window):
         self.last_scheduled_update = time.time()
 
         # First draw
+        resources.background_image.blit(0,0)
         self.terrain.update(
             self.player_sprite.world_x, self.player_sprite.world_y, self.player_sprite.world_z)
 
