@@ -10,9 +10,17 @@ class Tile(pyglet.sprite.Sprite):
         self.local_x = 0.0
         self.local_y = 0.0
 
-    def set_pos(self, x, y):
+    def set_pos(self, x, y, z):
         self.x = x + self.local_x * self.width
         self.y = y + self.local_y * self.height
+        if z < 0:
+            self.opacity = 255
+            self.color = (50,50,50)
+        elif z == 0:
+            self.opacity = 255
+        else:
+            self.opacity = 128
+            self.color = (150,150,200)
 
     def to_data(self):
         return {

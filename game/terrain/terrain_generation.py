@@ -16,7 +16,7 @@ def generate_chunk(chunk_x, chunk_y, chunk_z):
 
     world_x = chunk_x * constants.CHUNK_SIZE + constants.SEED
     world_y = chunk_y * constants.CHUNK_SIZE + constants.SEED
-    world_z = chunk_z * constants.CHUNK_SIZE + constants.SEED
+    world_z = chunk_z * constants.CHUNK_SIZE / 2 + constants.SEED
 
     chunk = []
     

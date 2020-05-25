@@ -17,7 +17,7 @@ class Chunk():
         for row in self.tiles:
             for tile in row:
                 if tile:
-                    tile.set_pos(x, y)
+                    tile.set_pos(x, y, z)
 
     def load_tiles(self):
         chunk = data_handler.read_chunk(self.chunk_x, self.chunk_y, self.chunk_z)
