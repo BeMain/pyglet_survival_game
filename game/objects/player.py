@@ -36,7 +36,7 @@ class Player(physics_object.PhysicsObject):
             self.rotation += self.rotate_speed * dt
 
         # Handle movement
-        speed = dt * self.move_speed
+        speed = self.move_speed * dt
         if self.key_handler[key.RIGHT]:
             self.world_x += speed
             redraw_needed = True

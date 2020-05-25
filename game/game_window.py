@@ -6,7 +6,7 @@ import math
 
 from game import constants, resources
 from game.objects import player
-from game.terrain import terrain
+from game.terrain import terrain, tile
 
 
 class GameWindow(pyglet.window.Window):
@@ -18,13 +18,10 @@ class GameWindow(pyglet.window.Window):
 
         self.main_batch = pyglet.graphics.Batch()
 
-        self.terrain_group = pyglet.graphics.OrderedGroup(0)
         self.objects_group = pyglet.graphics.OrderedGroup(1)
 
-        self.player_sprite = player.Player(
-            batch=self.main_batch, group=self.objects_group)
-        self.terrain = terrain.Terrain(
-            batch=self.main_batch, group=self.terrain_group)
+        self.player_sprite = player.Player(batch=self.main_batch, group=self.objects_group)
+        self.terrain = terrain.Terrain()
         self.fps_display = pyglet.window.FPSDisplay(self)
 
         self.game_objects = [self.player_sprite]
@@ -33,6 +30,9 @@ class GameWindow(pyglet.window.Window):
         for obj in self.game_objects:
             for handler in obj.event_handlers:
                 self.push_handlers(handler)
+
+        # Pass main_batch to tile.Tile so they can render properly
+        tile.Tile.MAIN_BATCH = self.main_batch
 
     def render(self):
         self.clear()

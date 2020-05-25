@@ -13,7 +13,7 @@ class Chunk():
         self.tiles = []
         self.load_tiles()
 
-    def set_pos(self, x, y):
+    def set_pos(self, x, y, z):
         for row in self.tiles:
             for tile in row:
                 if tile:
