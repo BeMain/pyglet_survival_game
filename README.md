@@ -1,6 +1,6 @@
 # Pyglet Survival Game
 
-## Requirements
+## Dependencies
 
 (Install using pip)
 
