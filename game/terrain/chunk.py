@@ -1,4 +1,3 @@
-from game import resources
 from game.terrain import data_handler, terrain_generation, tile
 
 # Updated for 3d-terrain
