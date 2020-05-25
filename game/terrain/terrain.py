@@ -38,6 +38,8 @@ class Terrain():
         old_keys = self.chunks.keys() if self.chunks else []
         new_keys = []
 
+        # TODO: Tiles on layer -1 that have a block above should not render
+
         # Generate chunks
         for z in range(player_z - 1, player_z + 2):
             for x in range(chunk_min_x, chunk_max_x):
