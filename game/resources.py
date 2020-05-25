@@ -11,8 +11,10 @@ def center_image(image):
     image.anchor_y = image.height // 2
 
 
-player_image = pyglet.resource.image("player.png")
+player_image = pyglet.resource.image("player.png", rotate=-90)
+player_image.width /= 10
+player_image.height /= 10
 center_image(player_image)
 
-tile_image = pyglet.resource.image("test_30x30.png")
+tile_image = pyglet.resource.image("test_30.png")
 center_image(tile_image)

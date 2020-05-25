@@ -17,8 +17,12 @@ class Player(physics_object.PhysicsObject):
         self.move_speed = 500.0
         self.rotate_speed = 200.0
 
+        self.x = constants.SCREEN_WIDTH / 2
+        self.y = constants.SCREEN_HEIGHT / 2
+
         self.world_x = 0.0
         self.world_y = 0.0
+        self.world_z = 0
 
     def update(self, dt):
         super(Player, self).update()

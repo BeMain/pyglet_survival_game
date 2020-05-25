@@ -2,7 +2,7 @@ import pyglet
 
 from game import resources, constants
 
-
+# Updated for 3d-terrain
 class Tile(pyglet.sprite.Sprite):
     def __init__(self, *args, **kwargs):
         super(Tile, self).__init__(img=resources.tile_image, *args, **kwargs)
@@ -17,7 +17,7 @@ class Tile(pyglet.sprite.Sprite):
     def to_data(self):
         return {
             "local_x": self.local_x,
-            "local_Y": self.local_y,
+            "local_y": self.local_y,
             "color": self.color[0] / 255,
         }
 

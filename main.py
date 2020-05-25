@@ -1,8 +1,6 @@
 from game import game_window, constants
 from game.terrain import data_handler
 
-# TODO: Create a main menu
-
 
 if __name__ == "__main__":
     # Enable some debugging functions

@@ -53,7 +53,7 @@ class GameWindow(pyglet.window.Window):
         # Only redraw terrain if needed
         if redraw_needed:
             self.terrain.update(
-                self.player_sprite.world_x, self.player_sprite.world_y)
+                self.player_sprite.world_x, self.player_sprite.world_y, self.player_sprite.world_z)
 
     def on_key_press(self, symbol, modifiers):
         if symbol == key.ESCAPE:
@@ -64,7 +64,7 @@ class GameWindow(pyglet.window.Window):
 
         # First draw
         self.terrain.update(
-            self.player_sprite.world_x, self.player_sprite.world_y)
+            self.player_sprite.world_x, self.player_sprite.world_y, self.player_sprite.world_z)
 
         # Main loop
         while self.running:
