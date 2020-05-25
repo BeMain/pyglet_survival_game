@@ -24,7 +24,7 @@ player_image.width /= 10
 player_image.height /= 10
 center_image(player_image)
 
-tile_image = pyglet.resource.image("test_10.png")
+tile_image = pyglet.resource.image("test/10.png")
 tile_image.width = tile_image.height = constants.TILE_SIZE
 center_image(tile_image)
 

@@ -22,7 +22,7 @@ class GameWindow(pyglet.window.Window):
 
         self.player_sprite = player.Player(batch=self.main_batch, group=self.objects_group)
         self.terrain = terrain.Terrain()
-        self.fps_display = pyglet.window.FPSDisplay(self)
+        self.fps_display = self.init_fps_display()
 
         self.game_objects = [self.player_sprite]
 
@@ -33,6 +33,12 @@ class GameWindow(pyglet.window.Window):
 
         # Pass main_batch to tile.Tile so they can render properly
         tile.Tile.MAIN_BATCH = self.main_batch
+
+    def init_fps_display(self):
+        display = pyglet.window.FPSDisplay(self)
+        display.label.color = (255,255,255,255)
+
+        return display
 
     def render(self):
         self.clear()
