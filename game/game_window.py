@@ -20,11 +20,11 @@ class GameWindow(pyglet.window.Window):
 
         self.objects_group = pyglet.graphics.OrderedGroup(1)
 
-        self.player_sprite = player.Player(batch=self.main_batch, group=self.objects_group)
+        self.player = player.Player(batch=self.main_batch, group=self.objects_group)
         self.terrain = terrain.Terrain()
         self.fps_display = self.init_fps_display()
 
-        self.game_objects = [self.player_sprite]
+        self.game_objects = [self.player]
 
         # Register event handlers
         for obj in self.game_objects:
@@ -61,20 +61,21 @@ class GameWindow(pyglet.window.Window):
 
         # Only redraw terrain if needed
         if redraw_needed:
-            self.terrain.update(
-                self.player_sprite.world_x, self.player_sprite.world_y, self.player_sprite.world_z)
+            self.terrain.update(self.player.world_x, self.player.world_y, self.player.world_z)
 
     def on_key_press(self, symbol, modifiers):
         if symbol == key.ESCAPE:
             self.running = False
+            
+        if self.player.on_key_press(symbol, modifiers):
+            self.terrain.update(self.player.world_x, self.player.world_y, self.player.world_z)
 
     def run(self):
         self.last_scheduled_update = time.time()
 
         # First draw
         resources.background_image.blit(0,0)
-        self.terrain.update(
-            self.player_sprite.world_x, self.player_sprite.world_y, self.player_sprite.world_z)
+        self.terrain.update(self.player.world_x, self.player.world_y, self.player.world_z)
 
         # Main loop
         while self.running:

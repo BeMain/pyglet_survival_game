@@ -12,12 +12,6 @@ class Terrain():
     def __init__(self, *args, **kwargs):
         self.chunks = {}
 
-        self.groups = {
-            -1 : pyglet.graphics.OrderedGroup(-3),
-            0 : pyglet.graphics.OrderedGroup(-2),
-            1 : pyglet.graphics.OrderedGroup(-1),
-        }
-
     def update(self, player_x, player_y, player_z):
         self.get_chunks_on_screen(player_x, player_y, player_z)
 
@@ -48,11 +42,11 @@ class Terrain():
                     if ((x, y, z) in old_keys):
                         c = self.chunks[(x, y, z)]
                     else:
-                        c = chunk.Chunk(x, y, z, group=self.groups[z - player_z])
+                        c = chunk.Chunk(x, y, z)
                         self.chunks[(x, y, z)] = c
 
                     c.set_pos((x - chunk_min_x) * constants.CHUNK_SIZE * constants.TILE_SIZE - offset_x,
-                              (y - chunk_min_y) * constants.CHUNK_SIZE * constants.TILE_SIZE - offset_y, z)
+                              (y - chunk_min_y) * constants.CHUNK_SIZE * constants.TILE_SIZE - offset_y, z - player_z)
 
         # Remove chunks outside screen
         to_remove = set(old_keys) - set(new_keys)

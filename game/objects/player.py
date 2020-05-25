@@ -51,3 +51,15 @@ class Player(physics_object.PhysicsObject):
             redraw_needed = True
 
         return redraw_needed
+
+    def on_key_press(self, symbol, modifiers):
+        redraw_needed = False
+
+        if symbol == key.W:
+            self.world_z -= 1
+            redraw_needed = True
+        if symbol == key.S:
+            self.world_z += 1
+            redraw_needed = True
+        
+        return redraw_needed

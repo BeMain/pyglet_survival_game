@@ -5,6 +5,11 @@ from game import resources, constants
 # Updated for 3d-terrain
 class Tile(pyglet.sprite.Sprite):
     MAIN_BATCH = None
+    GROUPS = {
+            -1 : pyglet.graphics.OrderedGroup(-3),
+            0 : pyglet.graphics.OrderedGroup(-2),
+            1 : pyglet.graphics.OrderedGroup(-1),
+        }
 
     def __init__(self, *args, **kwargs):
         super(Tile, self).__init__(img=resources.tile_image, *args, **kwargs)
@@ -26,12 +31,13 @@ class Tile(pyglet.sprite.Sprite):
             self.y = new_y
         
         # Change appearance depending on what layer we are on
-        if z < 0:
+        self.group = self.GROUPS[z]
+        if z == -1:
             self.opacity = 255
             self.color = (50,50,50)
         elif z == 0:
             self.opacity = 255
-        else:
+        elif z == 1:
             self.opacity = 128
             self.color = (150,150,200)
 
