@@ -12,6 +12,12 @@ def center_image(image):
     image.anchor_x = image.width // 2
     image.anchor_y = image.height // 2
 
+def get_background_scale_factor(background):
+    scale_x = constants.SCREEN_WIDTH / background.width
+    scale_y = constants.SCREEN_HEIGHT / background.height
+
+    return max(scale_x, scale_y)
+
 
 player_image = pyglet.resource.image("player.png", rotate=-90)
 player_image.width /= 10
@@ -23,8 +29,9 @@ tile_image.width = tile_image.height = constants.TILE_SIZE
 center_image(tile_image)
 
 
-background_image = pyglet.resource.image("background.jpg", rotate=90)
-#background_image = background_image.get_region(0,0, constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT)
-background_image.anchor_x = constants.SCREEN_WIDTH
-background_image.anchor_y = constants.SCREEN_HEIGHT
-
+background_image = pyglet.resource.image("backgrounds/1.jpg")
+scale_factor = get_background_scale_factor(background_image)
+background_image.width *= scale_factor
+background_image.height *= scale_factor
+background_image.anchor_x = 0
+background_image.anchor_y = 0

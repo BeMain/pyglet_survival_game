@@ -37,7 +37,8 @@ class GameWindow(pyglet.window.Window):
     def render(self):
         self.clear()
 
-        resources.background_image.blit(100,100)
+        # Draw background
+        resources.background_image.blit(0,0)
 
         self.main_batch.draw()
         self.fps_display.draw()
