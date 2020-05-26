@@ -18,7 +18,8 @@ class GameWindow(pyglet.window.Window):
 
         self.main_batch = pyglet.graphics.Batch()
 
-        self.objects_group = pyglet.graphics.OrderedGroup(1)
+        self.main_group = pyglet.graphics.Group()
+        self.objects_group = pyglet.graphics.OrderedGroup(5, parent=self.main_group)
 
         self.player = player.Player(batch=self.main_batch, group=self.objects_group)
         self.terrain = terrain.Terrain()
@@ -31,8 +32,8 @@ class GameWindow(pyglet.window.Window):
             for handler in obj.event_handlers:
                 self.push_handlers(handler)
 
-        # Pass main_batch to tile.Tile so they can render properly
-        tile.Tile.MAIN_BATCH = self.main_batch
+        # Init tile.Tile so they can render properly
+        tile.Tile.init_rendering(self.main_batch, self.main_group)
 
     def init_fps_display(self):
         display = pyglet.window.FPSDisplay(self)

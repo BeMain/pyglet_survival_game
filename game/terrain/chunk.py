@@ -1,6 +1,6 @@
 from game.terrain import data_handler, terrain_generation, tile
 
-# Updated for 3d-terrain
+
 class Chunk():
     def __init__(self, chunk_x, chunk_y, chunk_z, batch=None, group=None):
         self.chunk_x = chunk_x
@@ -14,8 +14,8 @@ class Chunk():
         self.load_tiles()
 
     def set_pos(self, x, y, z):
-        for row in self.tiles:
-            for tile in row:
+        for col in self.tiles:
+            for tile in col:
                 if tile:
                     tile.set_pos(x, y, z)
 
