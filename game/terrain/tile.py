@@ -17,9 +17,9 @@ class Tile(pyglet.sprite.Sprite):
         print("Main group: ", group)
         Tile.BATCH = batch
         Tile.GROUPS = {
-            -1 : pyglet.graphics.OrderedGroup(-3, parent=group),
-            0 : pyglet.graphics.OrderedGroup(-2, parent=group),
-            1 : pyglet.graphics.OrderedGroup(-1, parent=group),
+            -1 : pyglet.graphics.OrderedGroup(0, parent=group),
+            0 : pyglet.graphics.OrderedGroup(1, parent=group),
+            1 : pyglet.graphics.OrderedGroup(2, parent=group),
         }
 
     def set_pos(self, x, y, z):
@@ -27,7 +27,7 @@ class Tile(pyglet.sprite.Sprite):
         new_y = y + self.local_y * self.height
         
         # Check bounds
-        if new_x < -constants.TILE_SIZE // 2 or new_x > constants.SCREEN_WIDTH + constants.TILE_SIZE // 2  or new_y < -constants.TILE_SIZE // 2 or new_y > constants.SCREEN_HEIGHT + constants.TILE_SIZE // 2:
+        if (new_x < -constants.TILE_SIZE // 2) or (new_x > constants.SCREEN_WIDTH + constants.TILE_SIZE // 2) or (new_y < -constants.TILE_SIZE // 2) or (new_y > constants.SCREEN_HEIGHT + constants.TILE_SIZE // 2):
             # Don't render if sprite is not on screen
             self.batch = None
         else:
@@ -43,6 +43,7 @@ class Tile(pyglet.sprite.Sprite):
                 self.color = (50,50,50)
             elif z == 0:
                 self.opacity = 255
+                self.color = (255,255,255)
             elif z == 1:
                 self.opacity = 128
                 self.color = (150,150,200)

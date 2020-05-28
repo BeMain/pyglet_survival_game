@@ -35,7 +35,7 @@ class Terrain():
         # TODO: Tiles on layer -1 that have a block above should not render
 
         # Generate chunks
-        for z in range(player_z - 1, player_z + 2):
+        for z in range(player_z-1, player_z+2):
             for x in range(chunk_min_x, chunk_max_x):
                 for y in range(chunk_min_y, chunk_max_y):
                     new_keys.append((x, y, z))
