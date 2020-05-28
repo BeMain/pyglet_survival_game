@@ -14,6 +14,18 @@ class Terrain():
 
     def update(self, player_x, player_y, player_z):
         self.get_chunks_on_screen(player_x, player_y, player_z)
+    
+    def get_tile(self, world_x, world_y, z):
+        chunk_x = int(world_x / constants.TILE_SIZE) // constants.CHUNK_SIZE
+        chunk_y = int(world_y / constants.TILE_SIZE) // constants.CHUNK_SIZE
+
+        tile_x = int((world_x % (constants.CHUNK_SIZE * constants.TILE_SIZE)) / constants.TILE_SIZE + 0.5) 
+        tile_y = int((world_y % (constants.CHUNK_SIZE * constants.TILE_SIZE)) / constants.TILE_SIZE + 0.5)
+
+        c = self.chunks[(chunk_x, chunk_y, z)]
+        print(tile_x, tile_y)
+        tile = c.tiles[tile_x][tile_y]
+        return tile
 
     def get_chunks_on_screen(self, player_x, player_y, player_z):
         min_x = int(player_x - constants.SCREEN_WIDTH // 2)

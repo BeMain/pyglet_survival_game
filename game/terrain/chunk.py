@@ -16,7 +16,7 @@ class Chunk():
     def set_pos(self, x, y, z):
         for col in self.tiles:
             for tile in col:
-                if tile:
+                if tile.material != 0:
                     tile.set_pos(x, y, z)
 
     def load_tiles(self):
@@ -30,7 +30,7 @@ class Chunk():
         self.tiles = list(map(lambda col: list(map(self.load_tile, col)), chunk))
 
     def load_tile(self, t_data):
-        return tile.Tile.from_data(t_data, batch=self.batch, group=self.group)
+        return tile.Tile.from_data(t_data)
 
     def to_data(self):
         return list(map(lambda col: list(map(lambda tile: tile.to_data(), col)), self.tiles))

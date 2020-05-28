@@ -4,7 +4,7 @@ from pyglet.window import key
 import time
 import math
 
-from game import constants, resources
+from game import constants, resources, util
 from game.objects import player
 from game.terrain import terrain, tile
 
@@ -71,8 +71,23 @@ class GameWindow(pyglet.window.Window):
         if self.player.on_key_press(symbol, modifiers):
             self.terrain.update(self.player.world_x, self.player.world_y, self.player.world_z)
 
+    def on_mouse_press(self, x, y, button, modifiers):
+        x = util.clamp(x, 0, constants.SCREEN_WIDTH)
+        y = util.clamp(y, 0, constants.SCREEN_HEIGHT)
+
+        world_x = self.player.world_x - constants.SCREEN_WIDTH // 2 + x
+        world_y = self.player.world_y - constants.SCREEN_HEIGHT // 2 + y
+        
+        tile = self.terrain.get_tile(world_x, world_y, self.player.world_z)
+        tile.set_material(0)
+        
+
     def run(self):
         self.last_scheduled_update = time.time()
+
+        # Init mouse
+        cursor = self.get_system_mouse_cursor(self.CURSOR_CROSSHAIR)
+        self.set_mouse_cursor(cursor)
 
         # First draw
         resources.background_image.blit(0,0)

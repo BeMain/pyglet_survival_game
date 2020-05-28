@@ -9,6 +9,8 @@ class Tile(pyglet.sprite.Sprite):
     def __init__(self, *args, **kwargs):
         super(Tile, self).__init__(img=resources.tile_image, usage="static", *args, **kwargs)
 
+        self.material = 0
+
         self.local_x = 0.0
         self.local_y = 0.0
     
@@ -48,6 +50,12 @@ class Tile(pyglet.sprite.Sprite):
                 self.opacity = 128
                 self.color = (150,150,200)
 
+    def set_material(self, material):
+        self.material = material
+        if material == 0:
+            print("Material 0")
+            self.batch = None
+
     def to_data(self):
         return {
             "local_x": self.local_x,
@@ -56,17 +64,15 @@ class Tile(pyglet.sprite.Sprite):
         }
 
     @classmethod
-    def from_data(cls, data, *args, **kwargs):
-        if data["color"] == 0:
-            #return cls()
-            return None
-        else:
-            t = cls(*args, **kwargs)
+    def from_data(cls, data):
+        t = cls()
 
-            t.local_x = data["local_x"]
-            t.local_y = data["local_y"]
+        t.local_x = data["local_x"]
+        t.local_y = data["local_y"]
 
-            color = data["color"] * 255
-            t.color = (color, color, color)
+        color = data["color"] * 255
+        t.color = (color, color, color)
+        
+        t.material = data["color"]
 
-            return t
+        return t
