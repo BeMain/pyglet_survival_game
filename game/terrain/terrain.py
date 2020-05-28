@@ -63,5 +63,6 @@ class Terrain():
         # Remove chunks outside screen
         to_remove = set(old_keys) - set(new_keys)
         for key in to_remove:
+            self.chunks[key].save()
             self.chunks[key].delete()
             del self.chunks[key]

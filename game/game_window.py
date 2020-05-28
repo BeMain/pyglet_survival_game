@@ -85,7 +85,7 @@ class GameWindow(pyglet.window.Window):
     def run(self):
         self.last_scheduled_update = time.time()
 
-        # Init mouse
+        # Initialization
         cursor = self.get_system_mouse_cursor(self.CURSOR_CROSSHAIR)
         self.set_mouse_cursor(cursor)
 
@@ -101,3 +101,5 @@ class GameWindow(pyglet.window.Window):
             self.render()
 
             event = self.dispatch_events()
+            
+            if event: print(event)

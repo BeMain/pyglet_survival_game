@@ -53,14 +53,13 @@ class Tile(pyglet.sprite.Sprite):
     def set_material(self, material):
         self.material = material
         if material == 0:
-            print("Material 0")
             self.batch = None
 
     def to_data(self):
         return {
             "local_x": self.local_x,
             "local_y": self.local_y,
-            "color": self.color[0] / 255,
+            "material": self.material,
         }
 
     @classmethod
@@ -70,9 +69,9 @@ class Tile(pyglet.sprite.Sprite):
         t.local_x = data["local_x"]
         t.local_y = data["local_y"]
 
-        color = data["color"] * 255
+        color = data["material"] * 255
         t.color = (color, color, color)
         
-        t.material = data["color"]
+        t.material = data["material"]
 
         return t
