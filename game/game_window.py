@@ -5,7 +5,7 @@ import time
 import math
 
 from game import constants, resources, util
-from game.objects import player
+from game.objects import player, collision
 from game.terrain import terrain, tile
 
 
@@ -59,6 +59,12 @@ class GameWindow(pyglet.window.Window):
         for obj in self.game_objects:
             if obj.update(dt):
                 redraw_needed = True
+        
+        # Check collision
+        if self.player.collides_with(self.terrain.get_tile(self.player.world_x, self.player.world_y, self.player.world_z)):
+            print("Collision")
+        else:
+            print("No collision")
 
         # Only redraw terrain if needed
         if redraw_needed:
@@ -102,4 +108,4 @@ class GameWindow(pyglet.window.Window):
 
             event = self.dispatch_events()
             
-            if event: print(event)
+            if event: print("Event:", event)

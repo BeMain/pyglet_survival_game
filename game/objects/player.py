@@ -8,8 +8,7 @@ from game.objects import physics_object
 
 class Player(physics_object.PhysicsObject):
     def __init__(self, *args, **kwargs):
-        super(Player, self).__init__(
-            img=resources.player_image, *args, **kwargs)
+        super(Player, self).__init__(img=resources.player_image, *args, **kwargs)
 
         self.key_handler = key.KeyStateHandler()
         self.event_handlers = [self.key_handler]
@@ -56,10 +55,13 @@ class Player(physics_object.PhysicsObject):
         redraw_needed = False
 
         if symbol == key.W:
-            self.world_z -= 1
+            self.world_z += 1
             redraw_needed = True
         if symbol == key.S:
-            self.world_z += 1
+            self.world_z -= 1
             redraw_needed = True
         
         return redraw_needed
+
+    def collides_with(self, sprite):
+        return util.distancesq((self.x, self.y), (sprite.x, sprite.y)) < (self.width + sprite.width) / 2

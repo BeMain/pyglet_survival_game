@@ -23,7 +23,7 @@ class Terrain():
         tile_y = int((world_y % (constants.CHUNK_SIZE * constants.TILE_SIZE)) / constants.TILE_SIZE + 0.5)
 
         c = self.chunks[(chunk_x, chunk_y, z)]
-        print(tile_x, tile_y)
+        #print(tile_x, tile_y)
         tile = c.tiles[tile_x][tile_y]
         return tile
 
