@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
     "python.pythonPath": "C:\\Users\\Agardh\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe",
+=======
+    "python.pythonPath": "/usr/bin/python3",
+>>>>>>> ca8b2ea2225e448cc0e90a724e7828ba7c7a7f61
     "python.linting.pycodestyleEnabled": false,
     "python.linting.pylamaEnabled": false,
     "python.linting.banditEnabled": false,

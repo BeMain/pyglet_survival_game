@@ -25,12 +25,12 @@ player_image.width /= 10
 player_image.height /= 10
 center_image(player_image)
 
-tile_image = pyglet.resource.image("test/10.png")
+tile_image = pyglet.resource.image("tiles/stone.png")
 tile_image.width = tile_image.height = constants.TILE_SIZE
 center_image(tile_image)
 
 
-background_image = pyglet.resource.image("backgrounds/1.jpg")
+background_image = pyglet.resource.image("backgrounds/space.png")
 scale_factor = get_background_scale_factor(background_image)
 background_image.width *= scale_factor
 background_image.height *= scale_factor
