@@ -7,8 +7,10 @@ from game.objects import physics_object
 
 
 class Player(physics_object.PhysicsObject):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, terrain, *args, **kwargs):
         super(Player, self).__init__(img=resources.player_image, *args, **kwargs)
+
+        self.terrain = terrain
 
         self.key_handler = key.KeyStateHandler()
         self.event_handlers = [self.key_handler]
@@ -35,18 +37,23 @@ class Player(physics_object.PhysicsObject):
             self.rotation += self.rotate_speed * dt
 
         # Handle movement
-        speed = self.move_speed * dt
+        dx = 0
+        dy = 0
         if self.key_handler[key.RIGHT]:
-            self.world_x += speed
-            redraw_needed = True
+            dx += 1
         if self.key_handler[key.LEFT]:
-            self.world_x -= speed
-            redraw_needed = True
+            dx -= 1
         if self.key_handler[key.UP]:
-            self.world_y += speed
-            redraw_needed = True
+            dy += 1
         if self.key_handler[key.DOWN]:
-            self.world_y -= speed
+            dy -= 1
+        
+        # Check if tile can be moved to
+        speed = self.move_speed * dt
+        if self.terrain.get_tile(self.world_x + dx * (speed + self.width / 2), self.world_y + dy * (speed + self.height / 2), self.world_z).material == 0:
+            #if self.terrain.get_tile(self.world_x + dx * self.width, self.world_y + dx * self.height, self.world_z - 1).material != 0:
+            self.world_x += dx * speed
+            self.world_y += dy * speed
             redraw_needed = True
 
         return redraw_needed
@@ -64,4 +71,4 @@ class Player(physics_object.PhysicsObject):
         return redraw_needed
 
     def collides_with(self, sprite):
-        return util.distancesq((self.x, self.y), (sprite.x, sprite.y)) < (self.width + sprite.width) / 2
+        return util.distancesq((self.x, self.y), (sprite.x, sprite.y)) < ((self.width + sprite.width) / 2) ** 2

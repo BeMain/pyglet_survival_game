@@ -2,13 +2,10 @@ from game.terrain import data_handler, terrain_generation, tile
 
 
 class Chunk():
-    def __init__(self, chunk_x, chunk_y, chunk_z, batch=None, group=None):
+    def __init__(self, chunk_x, chunk_y, chunk_z):
         self.chunk_x = chunk_x
         self.chunk_y = chunk_y
         self.chunk_z = chunk_z
-
-        self.batch = batch
-        self.group = group
 
         self.tiles = []
         self.load_tiles()

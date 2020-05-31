@@ -16,14 +16,20 @@ class Terrain():
         self.get_chunks_on_screen(player_x, player_y, player_z)
     
     def get_tile(self, world_x, world_y, z):
-        chunk_x = int(world_x / constants.TILE_SIZE) // constants.CHUNK_SIZE
-        chunk_y = int(world_y / constants.TILE_SIZE) // constants.CHUNK_SIZE
+        chunk_x = int((world_x + constants.TILE_SIZE / 2) // (constants.TILE_SIZE * constants.CHUNK_SIZE))
+        chunk_y = int((world_y + constants.TILE_SIZE / 2) // (constants.TILE_SIZE * constants.CHUNK_SIZE))
 
-        tile_x = int((world_x % (constants.CHUNK_SIZE * constants.TILE_SIZE)) / constants.TILE_SIZE + 0.5) 
-        tile_y = int((world_y % (constants.CHUNK_SIZE * constants.TILE_SIZE)) / constants.TILE_SIZE + 0.5)
+        tile_x = int(round((world_x) % (constants.CHUNK_SIZE * constants.TILE_SIZE) / constants.TILE_SIZE))
+        tile_y = int(round((world_y) % (constants.CHUNK_SIZE * constants.TILE_SIZE) / constants.TILE_SIZE))
+
+        # Make sure the value is within bounds
+        if tile_x == constants.CHUNK_SIZE: tile_x = 0
+        if tile_y == constants.CHUNK_SIZE: tile_y = 0
+
+        #print("Chunk", (chunk_x, chunk_y))
+        #print("Tile", (tile_x, tile_y))
 
         c = self.chunks[(chunk_x, chunk_y, z)]
-        #print(tile_x, tile_y)
         tile = c.tiles[tile_x][tile_y]
         return tile
 

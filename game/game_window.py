@@ -21,8 +21,8 @@ class GameWindow(pyglet.window.Window):
         self.main_group = pyglet.graphics.Group()
         self.objects_group = pyglet.graphics.OrderedGroup(5, parent=self.main_group)
 
-        self.player = player.Player(batch=self.main_batch, group=self.objects_group)
         self.terrain = terrain.Terrain()
+        self.player = player.Player(self.terrain, batch=self.main_batch, group=self.objects_group)
         self.fps_display = self.init_fps_display()
 
         self.game_objects = [self.player]
@@ -59,12 +59,6 @@ class GameWindow(pyglet.window.Window):
         for obj in self.game_objects:
             if obj.update(dt):
                 redraw_needed = True
-        
-        # Check collision
-        if self.player.collides_with(self.terrain.get_tile(self.player.world_x, self.player.world_y, self.player.world_z)):
-            print("Collision")
-        else:
-            print("No collision")
 
         # Only redraw terrain if needed
         if redraw_needed:
@@ -81,8 +75,8 @@ class GameWindow(pyglet.window.Window):
         x = util.clamp(x, 0, constants.SCREEN_WIDTH)
         y = util.clamp(y, 0, constants.SCREEN_HEIGHT)
 
-        world_x = self.player.world_x - constants.SCREEN_WIDTH // 2 + x
-        world_y = self.player.world_y - constants.SCREEN_HEIGHT // 2 + y
+        world_x = self.player.world_x - constants.SCREEN_WIDTH / 2 + x
+        world_y = self.player.world_y - constants.SCREEN_HEIGHT / 2 + y
         
         tile = self.terrain.get_tile(world_x, world_y, self.player.world_z)
         tile.set_material(0)

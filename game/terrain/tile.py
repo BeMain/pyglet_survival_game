@@ -27,7 +27,7 @@ class Tile(pyglet.sprite.Sprite):
     def set_pos(self, x, y, z):
         new_x = x + self.local_x * self.width
         new_y = y + self.local_y * self.height
-        
+
         # Check bounds
         if (new_x < -constants.TILE_SIZE // 2) or (new_x > constants.SCREEN_WIDTH + constants.TILE_SIZE // 2) or (new_y < -constants.TILE_SIZE // 2) or (new_y > constants.SCREEN_HEIGHT + constants.TILE_SIZE // 2):
             # Don't render if sprite is not on screen
