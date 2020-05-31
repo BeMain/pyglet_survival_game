@@ -5,7 +5,7 @@ import time
 import math
 
 from game import constants, resources, util
-from game.objects import player, collision
+from game.objects import player
 from game.terrain import terrain, tile
 
 
