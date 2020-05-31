@@ -1,10 +1,15 @@
 import pyglet
+from pyglet import gl
 
 from game import constants
 
 
 pyglet.resource.path = ["resources"]
 pyglet.resource.reindex()
+
+# We don't want images to be blurry when scaled
+gl.glEnable(gl.GL_TEXTURE_2D)
+gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_NEAREST)
 
 
 def center_image(image):

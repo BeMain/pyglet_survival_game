@@ -42,13 +42,13 @@ class Tile(pyglet.sprite.Sprite):
             self.group = self.GROUPS[z]
             if z == -1:
                 self.opacity = 255
-                self.color = (50,50,50)
+                self.color = (75,75,75)
             elif z == 0:
                 self.opacity = 255
-                self.color = (255,255,255)
+                self.color = (150,150,150)
             elif z == 1:
                 self.opacity = 128
-                self.color = (150,150,200)
+                self.color = (255,255,255)
 
     def set_material(self, material):
         self.material = material
