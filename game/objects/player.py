@@ -70,5 +70,8 @@ class Player(physics_object.PhysicsObject):
         
         return redraw_needed
 
+    def on_mouse_motion(self, x, y, dx, dy):
+        self.rotation = util.angle_between((self.x, self.y), (x, y))
+
     def collides_with(self, sprite):
         return util.distancesq((self.x, self.y), (sprite.x, sprite.y)) < ((self.width + sprite.width) / 2) ** 2

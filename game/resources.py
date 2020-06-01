@@ -25,7 +25,7 @@ def get_background_scale_factor(background):
     return max(scale_x, scale_y)
 
 
-player_image = pyglet.resource.image("player.png", rotate=-90)
+player_image = pyglet.resource.image("player.png")
 player_image.width /= 10
 player_image.height /= 10
 center_image(player_image)
