@@ -7,7 +7,7 @@ Feedback is very much appreciated! I'm in no way a professional programmer, and 
 Here is the project's Trello Board with planned features:
 https://trello.com/invite/b/JwDc3zBP/10e69bb7f3abc281623fd9ba24631cfc/pyglet-survival-game
 
-All textures by my friend TTBob, a huge thanks for your support!
+All textures by my friend @TTBob, a huge thanks for your support!
 
 ## Dependencies
 
