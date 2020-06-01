@@ -11,8 +11,8 @@ class Tile(pyglet.sprite.Sprite):
 
         self.material = 0
 
-        self.local_x = 0.0
-        self.local_y = 0.0
+        self.local_x = 0
+        self.local_y = 0
     
     @staticmethod
     def init_rendering(batch, group):

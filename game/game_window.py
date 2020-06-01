@@ -82,7 +82,6 @@ class GameWindow(pyglet.window.Window):
         
         tile = self.terrain.get_tile(world_x, world_y, self.player.world_z)
         tile.set_material(0)
-        
 
     def run(self):
         self.last_scheduled_update = time.time()
