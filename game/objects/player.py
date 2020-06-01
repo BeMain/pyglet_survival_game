@@ -3,14 +3,15 @@ import math
 from pyglet.window import key
 
 from game import resources, util, constants
+from game.terrain import terrain
 from game.objects import physics_object
 
 
 class Player(physics_object.PhysicsObject):
-    def __init__(self, terrain, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super(Player, self).__init__(img=resources.player_image, *args, **kwargs)
 
-        self.terrain = terrain
+        self.terrain = terrain.Terrain()
 
         self.key_handler = key.KeyStateHandler()
         self.event_handlers = [self.key_handler]
@@ -29,12 +30,6 @@ class Player(physics_object.PhysicsObject):
         super(Player, self).update()
 
         redraw_needed = False
-
-        # Handle rotation
-        if self.key_handler[key.LEFT]:
-            self.rotation -= self.rotate_speed * dt
-        if self.key_handler[key.RIGHT]:
-            self.rotation += self.rotate_speed * dt
 
         # Handle movement
         dx = 0

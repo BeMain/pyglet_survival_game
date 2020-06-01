@@ -15,9 +15,6 @@ class GameWindow(pyglet.window.Window):
                                          constants.SCREEN_HEIGHT, vsync=False, *args, **kwargs)
         self.running = True
         self.last_scheduled_update = time.time()
-        self.updates = {
-            terrain : False
-        }
 
         self.main_batch = pyglet.graphics.Batch()
 
@@ -25,7 +22,7 @@ class GameWindow(pyglet.window.Window):
         self.objects_group = pyglet.graphics.OrderedGroup(5, parent=self.main_group)
 
         self.terrain = terrain.Terrain()
-        self.player = player.Player(self.terrain, batch=self.main_batch, group=self.objects_group)
+        self.player = player.Player(batch=self.main_batch, group=self.objects_group)
         self.fps_display = self.init_fps_display()
 
         self.game_objects = [self.player]
@@ -56,15 +53,15 @@ class GameWindow(pyglet.window.Window):
         self.flip()
 
     def update(self, dt):
-        self.updates = {}
+        redraw_needed = False
 
         # Update all objects
         for obj in self.game_objects:
             if obj.update(dt):
                 redraw_needed = True
 
-        # Redraw terrain if needed
-        if self.updates["terrain"]:
+        # Only redraw terrain if needed
+        if redraw_needed:
             self.terrain.update(self.player.world_x, self.player.world_y, self.player.world_z)
 
     def on_key_press(self, symbol, modifiers):
