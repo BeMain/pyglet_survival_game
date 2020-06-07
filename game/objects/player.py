@@ -3,6 +3,7 @@ import math
 from pyglet.window import key
 
 from game import resources, util, constants
+from game.terrain import terrain
 from game.objects import physics_object
 
 
@@ -10,7 +11,7 @@ class Player(pyglet.sprite.Sprite):
     def __init__(self, terrain, *args, **kwargs):
         super(Player, self).__init__(img=resources.player_image, *args, **kwargs)
 
-        self.terrain = terrain
+        self.terrain = terrain.Terrain()
 
         self.key_handler = key.KeyStateHandler()
         self.event_handlers = [self.key_handler]
@@ -29,12 +30,6 @@ class Player(pyglet.sprite.Sprite):
         super(Player, self).update()
 
         redraw_needed = False
-
-        # Handle rotation
-        if self.key_handler[key.LEFT]:
-            self.rotation -= self.rotate_speed * dt
-        if self.key_handler[key.RIGHT]:
-            self.rotation += self.rotate_speed * dt
 
         # Handle movement
         dx = 0
@@ -76,6 +71,9 @@ class Player(pyglet.sprite.Sprite):
             redraw_needed = True
         
         return redraw_needed
+
+    def on_mouse_motion(self, x, y, dx, dy):
+        self.rotation = util.angle_between((self.x, self.y), (x, y))
 
     def collides_with(self, sprite):
         return util.distancesq((self.x, self.y), (sprite.x, sprite.y)) < ((self.width + sprite.width) / 2) ** 2

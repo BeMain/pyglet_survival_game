@@ -11,8 +11,13 @@ class Chunk():
         self.load_tiles()
 
     def set_pos(self, x, y, z):
+        if z < 0:
+            layer_above = data_handler.read_chunk(self.chunk_x, self.chunk_y, self.chunk_z + 1)
         for col in self.tiles:
             for tile in col:
+                # Don't render if block above
+                #if z < 0 and layer_above[tile.local_x][tile.local_y]["material"] == 0:
+                    #break
                 if tile.material != 0:
                     tile.set_pos(x, y, z)
 

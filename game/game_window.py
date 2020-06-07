@@ -22,7 +22,7 @@ class GameWindow(pyglet.window.Window):
         self.objects_group = pyglet.graphics.OrderedGroup(5, parent=self.main_group)
 
         self.terrain = terrain.Terrain()
-        self.player = player.Player(self.terrain, batch=self.main_batch, group=self.objects_group)
+        self.player = player.Player(batch=self.main_batch, group=self.objects_group)
         self.fps_display = self.init_fps_display()
 
         self.game_objects = [self.player]
@@ -66,6 +66,8 @@ class GameWindow(pyglet.window.Window):
 
     def on_key_press(self, symbol, modifiers):
         if symbol == key.ESCAPE:
+            for k in self.terrain.chunks:
+                self.terrain.chunks[k].save()
             self.running = False
             
         if self.player.on_key_press(symbol, modifiers):
@@ -80,7 +82,6 @@ class GameWindow(pyglet.window.Window):
         
         tile = self.terrain.get_tile(world_x, world_y, self.player.world_z)
         tile.set_material(0)
-        
 
     def run(self):
         self.last_scheduled_update = time.time()

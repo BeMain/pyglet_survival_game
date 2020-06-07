@@ -1,10 +1,15 @@
 import pyglet
+from pyglet import gl
 
 from game import constants
 
 
 pyglet.resource.path = ["resources"]
 pyglet.resource.reindex()
+
+# We don't want images to be blurry when scaled
+gl.glEnable(gl.GL_TEXTURE_2D)
+gl.glTexParameteri(gl.GL_TEXTURE_2D, gl.GL_TEXTURE_MAG_FILTER, gl.GL_NEAREST)
 
 
 def center_image(image):
@@ -20,7 +25,7 @@ def get_background_scale_factor(background):
     return max(scale_x, scale_y)
 
 
-player_image = pyglet.resource.image("player.png", rotate=-90)
+player_image = pyglet.resource.image("player.png")
 player_image.width /= 10
 player_image.height /= 10
 center_image(player_image)
