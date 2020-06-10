@@ -82,6 +82,9 @@ class GameWindow(pyglet.window.Window):
         
         tile = self.terrain.get_tile(world_x, world_y, self.player.world_z)
         tile.set_material(0)
+    
+    def on_mouse_motion(self, x, y, dx, dy):
+        self.player.on_mouse_motion(x, y, dx, dy)
 
     def run(self):
         self.last_scheduled_update = time.time()

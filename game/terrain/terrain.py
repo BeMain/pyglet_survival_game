@@ -29,9 +29,6 @@ class Terrain():
             if tile_x == constants.CHUNK_SIZE: tile_x = 0
             if tile_y == constants.CHUNK_SIZE: tile_y = 0
 
-            #print("Chunk", (chunk_x, chunk_y))
-            #print("Tile", (tile_x, tile_y))
-
             c = self.chunks[(chunk_x, chunk_y, z)]
             tile = c.tiles[tile_x][tile_y]
             return tile

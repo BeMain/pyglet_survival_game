@@ -8,7 +8,7 @@ from game.objects import physics_object
 
 
 class Player(pyglet.sprite.Sprite):
-    def __init__(self, terrain, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super(Player, self).__init__(img=resources.player_image, *args, **kwargs)
 
         self.terrain = terrain.Terrain()
