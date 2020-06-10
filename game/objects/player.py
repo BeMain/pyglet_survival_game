@@ -49,12 +49,11 @@ class Player(pyglet.sprite.Sprite):
                 #if self.terrain.get_tile(self.world_x + dx * self.width, self.world_y + dx * self.height, self.world_z - 1).material != 0:
                 self.world_x += dx * speed
                 self.world_y += dy * speed
-                redraw_needed = True
             else:
                 # Snap to the edge of the tile
                 self.world_x += (abs(tile.x - self.x) - (tile.width / 2) - (self.width / 2)) * dx
                 self.world_y += (abs(tile.y - self.y) - (tile.height / 2) - (self.height / 2)) * dy
-                redraw_needed = True
+            updates.player = True
         
 
 
