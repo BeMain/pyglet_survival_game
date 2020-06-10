@@ -4,7 +4,7 @@ from pyglet.window import key
 import time
 import math
 
-from game import constants, resources, util
+from game import constants, resources, util, updates
 from game.objects import player
 from game.terrain import terrain, tile
 
@@ -53,16 +53,18 @@ class GameWindow(pyglet.window.Window):
         self.flip()
 
     def update(self, dt):
-        redraw_needed = False
 
         # Update all objects
         for obj in self.game_objects:
-            if obj.update(dt):
-                redraw_needed = True
+            obj.update(dt)
 
         # Only redraw terrain if needed
-        if redraw_needed:
+        if updates.terrain or updates.player:
             self.terrain.update(self.player.world_x, self.player.world_y, self.player.world_z)
+        
+        updates.clear()
+        
+
 
     def on_key_press(self, symbol, modifiers):
         if symbol == key.ESCAPE:
@@ -81,7 +83,10 @@ class GameWindow(pyglet.window.Window):
         world_y = self.player.world_y - constants.SCREEN_HEIGHT / 2 + y
         
         tile = self.terrain.get_tile(world_x, world_y, self.player.world_z)
-        tile.set_material(0)
+        if tile.material == 0:
+            tile.set_material(1)
+        else:
+            tile.set_material(0)
     
     def on_mouse_motion(self, x, y, dx, dy):
         self.player.on_mouse_motion(x, y, dx, dy)
