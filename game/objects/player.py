@@ -2,7 +2,7 @@ import pyglet
 import math
 from pyglet.window import key
 
-from game import resources, util, constants
+from game import resources, util, constants, updates
 from game.terrain import terrain
 from game.objects import physics_object
 
@@ -29,8 +29,6 @@ class Player(physics_object.PhysicsObject):
     def update(self, dt):
         super(Player, self).update()
 
-        redraw_needed = False
-
         # Handle movement
         dx = 0
         dy = 0
@@ -43,27 +41,23 @@ class Player(physics_object.PhysicsObject):
         if self.key_handler[key.DOWN]:
             dy -= 1
         
-        # Check if tile can be moved to
-        speed = self.move_speed * dt
-        if self.terrain.get_tile(self.world_x + dx * (speed + self.width / 2), self.world_y + dy * (speed + self.height / 2), self.world_z).material == 0:
-            #if self.terrain.get_tile(self.world_x + dx * self.width, self.world_y + dx * self.height, self.world_z - 1).material != 0:
-            self.world_x += dx * speed
-            self.world_y += dy * speed
-            redraw_needed = True
+        if dx or dy:
+            # Check if tile can be moved to
+            speed = self.move_speed * dt
+            if self.terrain.get_tile(self.world_x + dx * (speed + self.width / 2), self.world_y + dy * (speed + self.height / 2), self.world_z).material == 0:
+                #if self.terrain.get_tile(self.world_x + dx * self.width, self.world_y + dx * self.height, self.world_z - 1).material != 0:
+                self.world_x += dx * speed
+                self.world_y += dy * speed
+                updates.player = True
 
-        return redraw_needed
 
     def on_key_press(self, symbol, modifiers):
-        redraw_needed = False
-
         if symbol == key.W:
             self.world_z += 1
-            redraw_needed = True
+            updates.player = True
         if symbol == key.S:
             self.world_z -= 1
-            redraw_needed = True
-        
-        return redraw_needed
+            updates.player = True
 
     def on_mouse_motion(self, x, y, dx, dy):
         self.rotation = util.angle_between((self.x, self.y), (x, y))
