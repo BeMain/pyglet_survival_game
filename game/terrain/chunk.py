@@ -1,4 +1,4 @@
-from game.terrain import data_handler, terrain_generation, tile
+from game.terrain import data_handler, terrain_generation, tile, terrain
 
 
 class Chunk():
@@ -12,12 +12,13 @@ class Chunk():
 
     def set_pos(self, x, y, z):
         if z < 0:
-            layer_above = data_handler.read_chunk(self.chunk_x, self.chunk_y, self.chunk_z + 1)
+            c_above = terrain.Terrain().chunks[(self.chunk_x, self.chunk_y, self.chunk_z + 1)]
         for col in self.tiles:
             for tile in col:
                 # Don't render if block above
-                #if z < 0 and layer_above[tile.local_x][tile.local_y]["material"] == 0:
-                    #break
+                if z < 0 and c_above.tiles[tile.local_x][tile.local_y].material != 0:
+                    tile.batch = None
+                # Don't update if tile doesn't render
                 if tile.material != 0:
                     tile.set_pos(x, y, z)
 

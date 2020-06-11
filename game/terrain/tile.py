@@ -1,6 +1,6 @@
 import pyglet
 
-from game import resources, constants, updates
+from game import resources, constants, updates, style
 
 class Tile(pyglet.sprite.Sprite):
     BATCH = None
@@ -16,12 +16,12 @@ class Tile(pyglet.sprite.Sprite):
     
     @staticmethod
     def init_rendering(batch, group):
-        print("Main group: ", group)
         Tile.BATCH = batch
         Tile.GROUPS = {
-            -1 : pyglet.graphics.OrderedGroup(0, parent=group),
-            0 : pyglet.graphics.OrderedGroup(1, parent=group),
-            1 : pyglet.graphics.OrderedGroup(2, parent=group),
+            -2 : pyglet.graphics.OrderedGroup(-4, parent=group),
+            -1 : pyglet.graphics.OrderedGroup(-3, parent=group),
+            0 : pyglet.graphics.OrderedGroup(-2, parent=group),
+            1 : pyglet.graphics.OrderedGroup(-1, parent=group),
         }
 
     def set_pos(self, x, y, z):
@@ -40,15 +40,9 @@ class Tile(pyglet.sprite.Sprite):
         
             # Change appearance depending on what layer we are on
             self.group = self.GROUPS[z]
-            if z == -1:
-                self.opacity = 255
-                self.color = (75,75,75)
-            elif z == 0:
-                self.opacity = 255
-                self.color = (150,150,150)
-            elif z == 1:
-                self.opacity = 128
-                self.color = (255,255,255)
+            self.opacity = style.layers[z]["opacity"]
+            self.color = style.layers[z]["color"]
+            
 
     def set_material(self, material):
         self.material = material

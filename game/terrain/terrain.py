@@ -50,10 +50,8 @@ class Terrain():
             old_keys = self.chunks.keys() if self.chunks else []
             new_keys = []
 
-            # TODO: Tiles on layer -1 that have a block above should not render
-
             # Generate chunks
-            for z in range(player_z-1, player_z+2):
+            for z in range(player_z+1, player_z-2, -1):
                 for x in range(chunk_min_x, chunk_max_x):
                     for y in range(chunk_min_y, chunk_max_y):
                         new_keys.append((x, y, z))
@@ -64,7 +62,7 @@ class Terrain():
                             self.chunks[(x, y, z)] = c
 
                         c.set_pos((x - chunk_min_x) * constants.CHUNK_SIZE * constants.TILE_SIZE - offset_x,
-                                (y - chunk_min_y) * constants.CHUNK_SIZE * constants.TILE_SIZE - offset_y, z - player_z)
+                                  (y - chunk_min_y) * constants.CHUNK_SIZE * constants.TILE_SIZE - offset_y, z - player_z)
 
             # Remove chunks outside screen
             to_remove = set(old_keys) - set(new_keys)

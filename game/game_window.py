@@ -110,5 +110,4 @@ class GameWindow(pyglet.window.Window):
             self.render()
 
             event = self.dispatch_events()
-            
             if event: print("Event:", event)
