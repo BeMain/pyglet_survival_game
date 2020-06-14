@@ -2,7 +2,7 @@ import pyglet
 import math
 from pyglet.window import key
 
-from game import resources, util, constants, updates
+from game import resources, util, constants, event
 from game.terrain import terrain
 from game.objects import physics_object
 
@@ -15,6 +15,8 @@ class Player(physics_object.PhysicsObject):
 
         self.key_handler = key.KeyStateHandler()
         self.event_handlers = [self.key_handler]
+
+        self.event_move = event.Event()
 
         self.move_speed = 500.0
         self.rotate_speed = 200.0
@@ -44,20 +46,22 @@ class Player(physics_object.PhysicsObject):
         if dx or dy:
             # Check if tile can be moved to
             speed = self.move_speed * dt
-            if self.terrain.get_tile(self.world_x + dx * (speed + self.width / 2), self.world_y + dy * (speed + self.height / 2), self.world_z).material == 0:
-                #if self.terrain.get_tile(self.world_x + dx * self.width, self.world_y + dx * self.height, self.world_z - 1).material != 0:
+            if self.terrain.get_tile(self.world_x + dx * (speed + self.width / 2), self.world_y + dy * (speed + self.height / 2), self.world_z).material == 0:                
+                # Move
                 self.world_x += dx * speed
                 self.world_y += dy * speed
-                updates.player = True
+        
+                # Trigger move event
+                self.event_move()
 
 
     def on_key_press(self, symbol, modifiers):
         if symbol == key.W:
             self.world_z += 1
-            updates.player = True
+            self.event_move()
         if symbol == key.S:
             self.world_z -= 1
-            updates.player = True
+            self.event_move()
 
     def on_mouse_motion(self, x, y, dx, dy):
         self.rotation = util.angle_between((self.x, self.y), (x, y))

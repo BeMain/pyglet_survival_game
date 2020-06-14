@@ -1,6 +1,6 @@
 import pyglet
 
-from game import resources, constants, updates
+from game import resources, constants
 
 class Tile(pyglet.sprite.Sprite):
     BATCH = None
@@ -16,7 +16,6 @@ class Tile(pyglet.sprite.Sprite):
     
     @staticmethod
     def init_rendering(batch, group):
-        print("Main group: ", group)
         Tile.BATCH = batch
         Tile.GROUPS = {
             -1 : pyglet.graphics.OrderedGroup(0, parent=group),
@@ -56,7 +55,6 @@ class Tile(pyglet.sprite.Sprite):
             self.batch = None
         else:
             self.batch = self.BATCH
-        updates.terrain = True
 
     def to_data(self):
         return {

@@ -2,7 +2,7 @@ import pyglet
 from pyglet.window import key
 import math
 
-from game import constants
+from game import constants, event
 from game.terrain import chunk
 
 
@@ -16,7 +16,7 @@ class Terrain():
             self.chunks = {}
 
         def update(self, player_x, player_y, player_z):
-            self.get_chunks_on_screen(player_x, player_y, player_z)
+            self.update_chunks_on_screen(player_x, player_y, player_z)
         
         def get_tile(self, world_x, world_y, z):
             chunk_x = int((world_x + constants.TILE_SIZE / 2) // (constants.TILE_SIZE * constants.CHUNK_SIZE))
@@ -29,14 +29,11 @@ class Terrain():
             if tile_x == constants.CHUNK_SIZE: tile_x = 0
             if tile_y == constants.CHUNK_SIZE: tile_y = 0
 
-            #print("Chunk", (chunk_x, chunk_y))
-            #print("Tile", (tile_x, tile_y))
-
             c = self.chunks[(chunk_x, chunk_y, z)]
             tile = c.tiles[tile_x][tile_y]
             return tile
 
-        def get_chunks_on_screen(self, player_x, player_y, player_z):
+        def update_chunks_on_screen(self, player_x, player_y, player_z):
             min_x = int(player_x - constants.SCREEN_WIDTH // 2)
             min_y = int(player_y - constants.SCREEN_HEIGHT // 2)
             max_x = int(player_x + constants.SCREEN_WIDTH // 2 + constants.TILE_SIZE // 2)
@@ -52,8 +49,6 @@ class Terrain():
 
             old_keys = self.chunks.keys() if self.chunks else []
             new_keys = []
-
-            # TODO: Tiles on layer -1 that have a block above should not render
 
             # Generate chunks
             for z in range(player_z-1, player_z+2):
