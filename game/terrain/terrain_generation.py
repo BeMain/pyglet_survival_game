@@ -24,12 +24,11 @@ def generate_chunk(chunk_x, chunk_y, chunk_z):
         col = []
         for y in range(constants.CHUNK_SIZE):
             pixel = noise.pnoise3((world_x + x) / freq, (world_y + y) / freq, (world_z) / freq, octaves=octaves) * 0.5 + 0.5
-            t_data = {}
-
-            t_data["material"] = (1 if pixel >= threshold else 0)
-            #t_data["color"] = pixel
-            t_data["local_x"] = x
-            t_data["local_y"] = y
+            t_data = {
+                "material": (1 if pixel >= threshold else 0),
+                "tile_x": x,
+                "tile_y": y,
+            }
 
             col.append(t_data)
         chunk.append(col)

@@ -34,6 +34,7 @@ class GameWindow(pyglet.window.Window):
 
         # Register events
         self.player.event_move.append(self.on_player_move)
+        self.terrain.event_tile_update.append(self.on_tile_update)
 
         # Init tile.Tile so they can render properly
         tile.Tile.init_rendering(self.main_batch, self.main_group)
@@ -62,6 +63,9 @@ class GameWindow(pyglet.window.Window):
 
 
     def on_player_move(self):
+        self.terrain.update(self.player.world_x, self.player.world_y, self.player.world_z)
+
+    def on_tile_update(self, chunk_x, chunk_y, chunk_z, tile_x, tile_y):
         self.terrain.update(self.player.world_x, self.player.world_y, self.player.world_z)
 
 

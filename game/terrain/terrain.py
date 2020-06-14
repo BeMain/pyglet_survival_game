@@ -13,11 +13,18 @@ class Terrain():
 
     class __Terrain():
         def __init__(self, *args, **kwargs):
+            self.event_tile_update = event.Event()
+
             self.chunks = {}
 
         def update(self, player_x, player_y, player_z):
             self.update_chunks_on_screen(player_x, player_y, player_z)
-        
+
+
+        def on_tile_update(self, chunk_x, chunk_y, chunk_z, tile_x, tile_y):
+            self.event_tile_update(chunk_x, chunk_y, chunk_z, tile_x, tile_y)
+
+
         def get_tile(self, world_x, world_y, z):
             chunk_x = int((world_x + constants.TILE_SIZE / 2) // (constants.TILE_SIZE * constants.CHUNK_SIZE))
             chunk_y = int((world_y + constants.TILE_SIZE / 2) // (constants.TILE_SIZE * constants.CHUNK_SIZE))
@@ -59,6 +66,7 @@ class Terrain():
                             c = self.chunks[(x, y, z)]
                         else:
                             c = chunk.Chunk(x, y, z)
+                            c.event_tile_update.append(self.on_tile_update)
                             self.chunks[(x, y, z)] = c
 
                         c.set_pos((x - chunk_min_x) * constants.CHUNK_SIZE * constants.TILE_SIZE - offset_x,

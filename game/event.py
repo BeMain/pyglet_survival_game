@@ -5,6 +5,7 @@ class Event(list):
     call to each item in the list in ascending order by index.
     """
 
+
     def __call__(self, *args, **kwargs):
         for f in self:
             f(*args, **kwargs)
