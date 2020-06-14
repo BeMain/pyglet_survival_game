@@ -2,7 +2,7 @@ import pyglet
 from pyglet.window import key
 import math
 
-from game import constants
+from game import constants, event
 from game.terrain import chunk
 
 
@@ -16,7 +16,7 @@ class Terrain():
             self.chunks = {}
 
         def update(self, player_x, player_y, player_z):
-            self.get_chunks_on_screen(player_x, player_y, player_z)
+            self.update_chunks_on_screen(player_x, player_y, player_z)
         
         def get_tile(self, world_x, world_y, z):
             chunk_x = int((world_x + constants.TILE_SIZE / 2) // (constants.TILE_SIZE * constants.CHUNK_SIZE))
@@ -33,7 +33,7 @@ class Terrain():
             tile = c.tiles[tile_x][tile_y]
             return tile
 
-        def get_chunks_on_screen(self, player_x, player_y, player_z):
+        def update_chunks_on_screen(self, player_x, player_y, player_z):
             min_x = int(player_x - constants.SCREEN_WIDTH // 2)
             min_y = int(player_y - constants.SCREEN_HEIGHT // 2)
             max_x = int(player_x + constants.SCREEN_WIDTH // 2 + constants.TILE_SIZE // 2)

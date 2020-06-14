@@ -1,6 +1,6 @@
 import pyglet
 
-from game import resources, constants, updates, style
+from game import resources, constants, style
 
 class Tile(pyglet.sprite.Sprite):
     BATCH = None
@@ -50,7 +50,6 @@ class Tile(pyglet.sprite.Sprite):
             self.batch = None
         else:
             self.batch = self.BATCH
-        updates.terrain = True
 
     def to_data(self):
         return {
