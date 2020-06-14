@@ -2,7 +2,7 @@ import pyglet
 import math
 from pyglet.window import key
 
-from game import resources, util, constants, updates
+from game import resources, util, constants, event
 from game.terrain import terrain
 from game.objects import physics_object
 
@@ -15,6 +15,8 @@ class Player(pyglet.sprite.Sprite):
 
         self.key_handler = key.KeyStateHandler()
         self.event_handlers = [self.key_handler]
+
+        self.event_move = event.Event()
 
         self.move_speed = 500.0
         self.rotate_speed = 200.0
@@ -53,17 +55,19 @@ class Player(pyglet.sprite.Sprite):
                 # Snap to the edge of the tile
                 self.world_x += (abs(tile.x - self.x) - (tile.width / 2) - (self.width / 2)) * dx
                 self.world_y += (abs(tile.y - self.y) - (tile.height / 2) - (self.height / 2)) * dy
-            updates.player = True
+            
+            # Trigger move event
+            self.event_move()
         
 
 
     def on_key_press(self, symbol, modifiers):
         if symbol == key.W:
             self.world_z += 1
-            updates.player = True
+            self.event_move()
         if symbol == key.S:
             self.world_z -= 1
-            updates.player = True
+            self.event_move()
 
     def on_mouse_motion(self, x, y, dx, dy):
         self.rotation = util.angle_between((self.x, self.y), (x, y))
