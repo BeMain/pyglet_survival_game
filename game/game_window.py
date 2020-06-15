@@ -6,7 +6,7 @@ import math
 
 from game import constants, resources, util
 from game.objects import player
-from game.terrain import terrain, tile
+from game.terrain import terrain, tile, data_handler
 
 
 class GameWindow(pyglet.window.Window):
@@ -71,8 +71,12 @@ class GameWindow(pyglet.window.Window):
 
     def on_key_press(self, symbol, modifiers):
         if symbol == key.ESCAPE:
+            # Save chunks
             for k in self.terrain.chunks:
                 self.terrain.chunks[k].save()
+            # Save player
+            data_handler.write_player_data(self.player)
+
             self.running = False
             
         if self.player.on_key_press(symbol, modifiers):

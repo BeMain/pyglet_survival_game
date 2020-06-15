@@ -10,5 +10,10 @@ CHUNK_SIZE = 16
 SEED = 1111
 
 
+# File structure
+CHUNKS_PATH = "save/chunks/"
+PLAYER_DATA_PATH = "save/player.json"
+
+
 # Debugging constants
 DEBUG_CLEAR_CHUNKS_ON_STARTUP = False

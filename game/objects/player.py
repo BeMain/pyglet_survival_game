@@ -3,7 +3,7 @@ import math
 from pyglet.window import key
 
 from game import resources, util, constants, event
-from game.terrain import terrain
+from game.terrain import terrain, data_handler
 from game.objects import physics_object
 
 
@@ -27,6 +27,9 @@ class Player(pyglet.sprite.Sprite):
         self.world_x = 0.0
         self.world_y = 0.0
         self.world_z = 0
+
+        # Load player data
+        self = data_handler.load_player_data(self)
 
     def update(self, dt):
         super(Player, self).update()
