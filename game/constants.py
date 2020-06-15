@@ -5,10 +5,15 @@ SCREEN_HEIGHT = 600
 FPS = 60
 
 TILE_SIZE = 60.0
-CHUNK_SIZE = 32
+CHUNK_SIZE = 16
 
 SEED = 1111
 
 
+# File structure
+CHUNKS_PATH = "save/chunks/"
+PLAYER_DATA_PATH = "save/player.json"
+
+
 # Debugging constants
-DEBUG_CLEAR_CHUNKS_ON_STARTUP = False
+DEBUG_CLEAR_WORLD_ON_STARTUP = False

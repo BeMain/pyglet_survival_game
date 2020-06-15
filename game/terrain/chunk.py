@@ -1,14 +1,24 @@
+import concurrent.futures
+
+from game import event
 from game.terrain import data_handler, terrain_generation, tile, terrain
 
 
 class Chunk():
     def __init__(self, chunk_x, chunk_y, chunk_z):
+
+        self.event_tile_update = event.Event()
+
         self.chunk_x = chunk_x
         self.chunk_y = chunk_y
         self.chunk_z = chunk_z
 
         self.tiles = []
         self.load_tiles()
+    
+    def on_tile_update(self, tile_x, tile_y):
+        self.event_tile_update(self.chunk_x, self.chunk_y, self.chunk_z, tile_x, tile_y)
+
 
     def set_pos(self, x, y, z):
         if z < 0:
@@ -16,7 +26,7 @@ class Chunk():
         for col in self.tiles:
             for tile in col:
                 # Don't render if block above
-                if z < 0 and c_above.tiles[tile.local_x][tile.local_y].material != 0:
+                if z < 0 and c_above.tiles[tile.tile_x][tile.tile_y].material != 0:
                     tile.batch = None
                 # Don't update if tile doesn't render
                 if tile.material != 0:
@@ -33,7 +43,9 @@ class Chunk():
         self.tiles = list(map(lambda col: list(map(self.load_tile, col)), chunk))
 
     def load_tile(self, t_data):
-        return tile.Tile.from_data(t_data)
+        t = tile.Tile.from_data(t_data)
+        t.event_update.append(self.on_tile_update)
+        return t
 
     def to_data(self):
         return list(map(lambda col: list(map(lambda tile: tile.to_data(), col)), self.tiles))
@@ -45,4 +57,5 @@ class Chunk():
                     tile.delete()
 
     def save(self):
-        data_handler.write_chunk(self.chunk_x, self.chunk_y, self.chunk_z, self.to_data())
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            executor.submit(data_handler.write_chunk, self.chunk_x, self.chunk_y, self.chunk_z, self.to_data())
