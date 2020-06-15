@@ -29,7 +29,14 @@ class Player(pyglet.sprite.Sprite):
         self.world_z = 0
 
         # Load player data
-        self = data_handler.load_player_data(self)
+        self.load_data
+    
+    def load_data(self):
+        data = data_handler.load_player_data()
+        if data:
+            self.world_x = data["world_x"]
+            self.world_y = data["world_y"]
+            self.world_z = data["world_z"]
 
     def update(self, dt):
         super(Player, self).update()

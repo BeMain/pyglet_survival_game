@@ -6,17 +6,13 @@ from game import constants
 
 
 # Player
-def load_player_data(player):
+def load_player_data():
     path = constants.PLAYER_DATA_PATH
     if not os.path.exists(path):
-        # If file doesn't exist, return player as is
-        return player
+        # If file doesn't exist, return
+        return
     with open(path, "r") as readfile:
-        data = json.load(readfile)
-        player.world_x = data["world_x"]
-        player.world_y = data["world_y"]
-        player.world_z = data["world_z"]
-        return player
+        return json.load(readfile)
 
 def write_player_data(player):
     data = {
@@ -25,6 +21,11 @@ def write_player_data(player):
         "world_z": player.world_z,
     }
     json.dump(data, open(constants.PLAYER_DATA_PATH, "w"))
+
+def clear_player_data():
+    print("Clearing player data")
+    if os.path.exists(constants.PLAYER_DATA_PATH):
+        os.remove(constants.PLAYER_DATA_PATH)
 
 
 # Chunks
