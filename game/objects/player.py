@@ -1,6 +1,8 @@
 import pyglet
-import math
 from pyglet.window import key
+
+import math
+import concurrent.futures
 
 from game import resources, util, constants, event
 from game.terrain import terrain, data_handler
@@ -29,14 +31,26 @@ class Player(pyglet.sprite.Sprite):
         self.world_z = 0
 
         # Load player data
-        self.load_data
+        self.load_data()
     
     def load_data(self):
-        data = data_handler.load_player_data()
+        data = data_handler.read_player_data()
         if data:
             self.world_x = data["world_x"]
             self.world_y = data["world_y"]
             self.world_z = data["world_z"]
+    
+    def to_data(self):
+        return {
+            "world_x": self.world_x,
+            "world_y": self.world_y,
+            "world_z": self.world_z,
+        }
+    
+    def save(self):
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            executor.submit(data_handler.write_player_data, self.to_data())
+
 
     def update(self, dt):
         super(Player, self).update()
@@ -70,7 +84,6 @@ class Player(pyglet.sprite.Sprite):
             self.event_move()
         
 
-
     def on_key_press(self, symbol, modifiers):
         if symbol == key.W:
             self.world_z += 1
@@ -81,6 +94,7 @@ class Player(pyglet.sprite.Sprite):
 
     def on_mouse_motion(self, x, y, dx, dy):
         self.rotation = util.angle_between((self.x, self.y), (x, y))
+
 
     def collides_with(self, sprite):
         return util.distancesq((self.x, self.y), (sprite.x, sprite.y)) < ((self.width + sprite.width) / 2) ** 2

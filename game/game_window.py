@@ -75,7 +75,7 @@ class GameWindow(pyglet.window.Window):
             for k in self.terrain.chunks:
                 self.terrain.chunks[k].save()
             # Save player
-            data_handler.write_player_data(self.player)
+            self.player.save()
 
             self.running = False
             

@@ -1,3 +1,5 @@
+import concurrent.futures
+
 from game import event
 from game.terrain import data_handler, terrain_generation, tile, terrain
 
@@ -55,4 +57,5 @@ class Chunk():
                     tile.delete()
 
     def save(self):
-        data_handler.write_chunk(self.chunk_x, self.chunk_y, self.chunk_z, self.to_data())
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            executor.submit(data_handler.write_chunk, self.chunk_x, self.chunk_y, self.chunk_z, self.to_data())
