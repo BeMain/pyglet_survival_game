@@ -65,18 +65,24 @@ class Player(pyglet.sprite.Sprite):
             dpos.y += 1
         if self.key_handler[key.DOWN]:
             dpos.y -= 1
-        
-        if dpos != util.Vector.ZERO():
+
+        if not dpos.is_zero():
+            # Normalize to avoid fast diagonal movement
             dpos.normalize()
-            # Check if tile can be moved to
+            
             speed = self.move_speed * dt
+
+            # Check if tile can be moved to
             tile = self.terrain.get_tile(self.world_x + dpos.x * (speed + self.width / 2), self.world_y + dpos.y * (speed + self.height / 2), self.world_z)
             if tile.material == 0:
-                #if self.terrain.get_tile(self.world_x + dx * self.width, self.world_y + dx * self.height, self.world_z - 1).material != 0:
+                # Move normally
                 self.world_x += dpos.x * speed
                 self.world_y += dpos.y * speed
             else:
                 # Snap to the edge of the tile
+                print(dpos)
+                print("x:", round((abs(tile.x - self.x) - (tile.width / 2) - (self.width / 2)) * dpos.x))
+                print("y:", round((abs(tile.y - self.y) - (tile.height / 2) - (self.height / 2)) * dpos.y))
                 self.world_x += (abs(tile.x - self.x) - (tile.width / 2) - (self.width / 2)) * dpos.x
                 self.world_y += (abs(tile.y - self.y) - (tile.height / 2) - (self.height / 2)) * dpos.y
             

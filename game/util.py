@@ -12,19 +12,25 @@ class Vector(object):
     def ZERO(cls):
         return cls(0.0, 0.0)
     
-    def normalize(self):
+    def normalize(self, precision=3):
         v = math.atan2(self.y, self.x)
-        self.x = math.cos(v)
-        self.y = math.sin(v)
+        self.x = round(math.cos(v), precision)
+        self.y = round(math.sin(v), precision)
+    
+    def is_zero(self):
+        return self.x == 0 and self.y == 0
+
+    def __str__(self):
+        return f"x: {self.x}, y: {self.y}"
 
 
 def clamp(my_value, min_value, max_value):
     return max(min(my_value, max_value), min_value)
 
-def distancesq(vector1, vector2):
-    return (vector1.x-vector2.x)**2 + (vector1.y-vector2.y)**2
+def distancesq(pos1, pos2):
+    return (pos1[0] - pos2[0])**2 + (pos1[1] - pos2[1])**2
 
-def angle_between(vector1, vector2):
-    x = vector1.x - vector2.x
-    y = vector1.y - vector2.y
+def angle_between(pos1, pos2):
+    x = pos1[0] - pos2[0]
+    y = pos1[1] - pos2[1]
     return -math.degrees(math.atan2(y, x))
