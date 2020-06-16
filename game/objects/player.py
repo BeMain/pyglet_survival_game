@@ -73,18 +73,20 @@ class Player(pyglet.sprite.Sprite):
             speed = self.move_speed * dt
 
             # Check if tile can be moved to
-            tile = self.terrain.get_tile(self.world_x + dpos.x * (speed + self.width / 2), self.world_y + dpos.y * (speed + self.height / 2), self.world_z)
-            if tile.material == 0:
-                # Move normally
+            tilex = self.terrain.get_tile(self.world_x + dpos.x * (speed + self.width / 2), self.world_y, self.world_z)
+            tiley = self.terrain.get_tile(self.world_x, self.world_y + dpos.y * (speed + self.height / 2), self.world_z)
+            
+            # Test x
+            if tilex.material == 0:
                 self.world_x += dpos.x * speed
+            else:
+                self.world_x += (abs(tilex.x - self.x) - (tilex.width / 2) - (self.width / 2)) * dpos.x
+
+            # Test y
+            if tiley.material == 0:
                 self.world_y += dpos.y * speed
             else:
-                # Snap to the edge of the tile
-                print(dpos)
-                print("x:", round((abs(tile.x - self.x) - (tile.width / 2) - (self.width / 2)) * dpos.x))
-                print("y:", round((abs(tile.y - self.y) - (tile.height / 2) - (self.height / 2)) * dpos.y))
-                self.world_x += (abs(tile.x - self.x) - (tile.width / 2) - (self.width / 2)) * dpos.x
-                self.world_y += (abs(tile.y - self.y) - (tile.height / 2) - (self.height / 2)) * dpos.y
+                self.world_y += (abs(tiley.y - self.y) - (tiley.height / 2) - (self.height / 2)) * dpos.y
             
             # Trigger move event
             self.event_move()
