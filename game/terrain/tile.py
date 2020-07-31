@@ -34,8 +34,13 @@ class Tile(pyglet.sprite.Sprite):
         if (new_x < -constants.TILE_SIZE // 2) or (new_x > constants.SCREEN_WIDTH + constants.TILE_SIZE // 2) or (new_y < -constants.TILE_SIZE // 2) or (new_y > constants.SCREEN_HEIGHT + constants.TILE_SIZE // 2):
             # Don't render if sprite is not on screen
             self.batch = None
+
         else:
-            self.batch = self.BATCH
+            if self.material == 0:
+                # Air shouldn't be rendered
+                self.batch = None
+            else:
+                self.batch = self.BATCH
 
             self.x = new_x
             self.y = new_y

@@ -22,7 +22,7 @@ class Vector(object):
         return self.x != 0 or self.y != 0
 
     def __str__(self):
-        return f"x: {self.x}, y: {self.y}"
+        return f"Vector({self.x}, {self.y})"
 
 
 def clamp(my_value, min_value, max_value):

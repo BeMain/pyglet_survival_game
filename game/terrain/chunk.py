@@ -25,12 +25,11 @@ class Chunk():
             c_above = terrain.Terrain().chunks[(self.chunk_x, self.chunk_y, self.chunk_z + 1)]
         for col in self.tiles:
             for tile in col:
-                # Don't render if block above
+                # Don't render tile if block above
                 if z < 0 and c_above.tiles[tile.tile_x][tile.tile_y].material != 0:
                     tile.batch = None
-                # Don't update if tile doesn't render
-                if tile.material != 0:
-                    tile.set_pos(x, y, z)
+
+                tile.set_pos(x, y, z)
 
     def load_tiles(self):
         chunk = data_handler.read_chunk(self.chunk_x, self.chunk_y, self.chunk_z)
