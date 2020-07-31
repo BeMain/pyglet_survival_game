@@ -16,9 +16,10 @@ class Vector(object):
         v = math.atan2(self.y, self.x)
         self.x = round(math.cos(v), precision)
         self.y = round(math.sin(v), precision)
+
     
-    def is_zero(self):
-        return self.x == 0 and self.y == 0
+    def __bool__(self):
+        return self.x != 0 or self.y != 0
 
     def __str__(self):
         return f"x: {self.x}, y: {self.y}"

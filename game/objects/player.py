@@ -66,7 +66,7 @@ class Player(pyglet.sprite.Sprite):
         if self.key_handler[key.DOWN]:
             dpos.y -= 1
 
-        if not dpos.is_zero():
+        if dpos:
             # Normalize to avoid fast diagonal movement
             dpos.normalize()
             
