@@ -57,13 +57,13 @@ class Player(pyglet.sprite.Sprite):
 
         # Handle movement
         dpos = util.Vector(0,0)
-        if self.key_handler[key.RIGHT]:
+        if self.key_handler[key.RIGHT] or self.key_handler[key.D]:
             dpos.x += 1
-        if self.key_handler[key.LEFT]:
+        if self.key_handler[key.LEFT] or self.key_handler[key.A]:
             dpos.x -= 1
-        if self.key_handler[key.UP]:
+        if self.key_handler[key.UP] or self.key_handler[key.W]:
             dpos.y += 1
-        if self.key_handler[key.DOWN]:
+        if self.key_handler[key.DOWN] or self.key_handler[key.S]:
             dpos.y -= 1
 
         if dpos:
@@ -95,10 +95,10 @@ class Player(pyglet.sprite.Sprite):
         
 
     def on_key_press(self, symbol, modifiers):
-        if symbol == key.W:
+        if symbol == key.Z:
             self.world_z += 1
             self.event_move()
-        if symbol == key.S:
+        if symbol == key.X:
             self.world_z -= 1
             self.event_move()
 
