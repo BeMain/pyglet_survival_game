@@ -1,12 +1,15 @@
 import pyglet
 from pyglet.window import key
 
+import glooey
+
 import time
 import math
 
 from game import constants, resources, util
 from game.objects import player
 from game.terrain import terrain, tile, data_handler
+from game.gui import building
 
 
 class GameWindow(pyglet.window.Window):
@@ -17,9 +20,12 @@ class GameWindow(pyglet.window.Window):
         self.last_scheduled_update = time.time()
 
         self.main_batch = pyglet.graphics.Batch()
+        self.gui_batch = pyglet.graphics.Batch()
 
         self.main_group = pyglet.graphics.Group()
         self.objects_group = pyglet.graphics.OrderedGroup(5, parent=self.main_group)
+
+        self.gui = building.Workbench3(self, batch=self.gui_batch)
 
         self.terrain = terrain.Terrain()
         self.player = player.Player(batch=self.main_batch, group=self.objects_group)
@@ -53,6 +59,8 @@ class GameWindow(pyglet.window.Window):
 
         self.main_batch.draw()
         self.fps_display.draw()
+
+        self.gui_batch.draw()
 
         self.flip()
 
