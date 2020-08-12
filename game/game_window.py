@@ -19,14 +19,16 @@ class GameWindow(pyglet.window.Window):
         self.running = True
         self.last_scheduled_update = time.time()
 
+        # Batches
         self.main_batch = pyglet.graphics.Batch()
         self.gui_batch = pyglet.graphics.Batch()
 
+        # Groups
         self.main_group = pyglet.graphics.Group()
         self.objects_group = pyglet.graphics.OrderedGroup(5, parent=self.main_group)
 
+        # Objects
         self.gui = building.Workbench3(self, batch=self.gui_batch)
-
         self.terrain = terrain.Terrain()
         self.player = player.Player(batch=self.main_batch, group=self.objects_group)
         self.fps_display = self.init_fps_display()
@@ -37,10 +39,8 @@ class GameWindow(pyglet.window.Window):
         for obj in self.game_objects:
             for handler in obj.event_handlers:
                 self.push_handlers(handler)
-
-        # Register events
-        self.player.event_move.append(self.on_player_move)
-        self.terrain.event_tile_update.append(self.on_tile_update)
+            
+        self.terrain.push_handlers(on_update=self.on_tile_update)
 
         # Init tile.Tile so they can render properly
         tile.Tile.init_rendering(self.main_batch, self.main_group)
@@ -70,9 +70,6 @@ class GameWindow(pyglet.window.Window):
             obj.update(dt)
 
 
-    def on_player_move(self):
-        self.terrain.update(self.player.world_x, self.player.world_y, self.player.world_z)
-
     def on_tile_update(self, chunk_x, chunk_y, chunk_z, tile_x, tile_y):
         self.terrain.update(self.player.world_x, self.player.world_y, self.player.world_z)
 
@@ -85,10 +82,8 @@ class GameWindow(pyglet.window.Window):
             # Save player
             self.player.save()
 
+            # Stop the game
             self.running = False
-            
-        if self.player.on_key_press(symbol, modifiers):
-            self.terrain.update(self.player.world_x, self.player.world_y, self.player.world_z)
 
     def on_mouse_press(self, x, y, button, modifiers):
         x = util.clamp(x, 0, constants.SCREEN_WIDTH)
@@ -102,9 +97,6 @@ class GameWindow(pyglet.window.Window):
             tile.set_material(1)
         else:
             tile.set_material(0)
-    
-    def on_mouse_motion(self, x, y, dx, dy):
-        self.player.on_mouse_motion(x, y, dx, dy)
 
     def run(self):
         self.last_scheduled_update = time.time()

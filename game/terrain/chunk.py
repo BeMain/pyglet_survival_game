@@ -1,13 +1,16 @@
 import concurrent.futures
 
+import pyglet
+
 from game import event
 from game.terrain import data_handler, terrain_generation, tile, terrain
 
 
-class Chunk():
-    def __init__(self, chunk_x, chunk_y, chunk_z):
-
-        self.event_tile_update = event.Event()
+class Chunk(pyglet.event.EventDispatcher):
+    def __init__(self, chunk_x, chunk_y, chunk_z, *args, **kwargs):
+        super(Chunk, self).__init__(*args, **kwargs)
+        
+        self.register_event_type("on_update")
 
         self.chunk_x = chunk_x
         self.chunk_y = chunk_y
@@ -17,7 +20,7 @@ class Chunk():
         self.load_tiles()
     
     def on_tile_update(self, tile_x, tile_y):
-        self.event_tile_update(self.chunk_x, self.chunk_y, self.chunk_z, tile_x, tile_y)
+        self.dispatch_event("on_update", self.chunk_x, self.chunk_y, self.chunk_z, tile_x, tile_y)
 
 
     def set_pos(self, x, y, z):
