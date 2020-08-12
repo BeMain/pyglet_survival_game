@@ -58,7 +58,7 @@ class Player(physics_object.PhysicsObject, pyglet.event.EventDispatcher):
         super(Player, self).update()
 
         self.handle_xy_movement(dt)
-        self.handle_z_movement()
+        #self.handle_z_movement()
 
         
     def handle_xy_movement(self, dt):
@@ -98,6 +98,7 @@ class Player(physics_object.PhysicsObject, pyglet.event.EventDispatcher):
                 self.world_y += (abs(tiley.y - self.y) - (constants.TILE_SIZE / 2) - (self.height / 2)) * dpos.y
 
             # Trigger move event
+            print("dispatch on_move")
             self.dispatch_event("on_move")
 
     def handle_z_movement(self):
@@ -110,6 +111,7 @@ class Player(physics_object.PhysicsObject, pyglet.event.EventDispatcher):
     
     def on_move(self):
         # TODO: This is being called twice every move, which causes the player to "jump" forward
+        print("on_move")
         self.terrain.update(self.world_x, self.world_y, self.world_z)
 
     def on_mouse_motion(self, x, y, dx, dy):
