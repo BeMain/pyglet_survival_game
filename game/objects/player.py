@@ -9,18 +9,20 @@ from game.terrain import terrain, data_handler
 from game.objects import physics_object
 
 
-class Player(pyglet.sprite.Sprite):
+class Player(physics_object.PhysicsObject, pyglet.event.EventDispatcher):
     def __init__(self, *args, **kwargs):
         super(Player, self).__init__(img=resources.player_image, *args, **kwargs)
 
         self.terrain = terrain.Terrain()
 
+        self.register_event_type("on_move")
+        self.push_handlers(self.on_move)
+
         self.key_handler = key.KeyStateHandler()
-        self.event_handlers = [self.key_handler]
+        self.event_handlers = [self.key_handler, self.on_mouse_motion]
 
-        self.event_move = event.Event()
 
-        self.move_speed = 500.0
+        self.move_speed = 1000.0
         self.rotate_speed = 200.0
 
         self.x = constants.SCREEN_WIDTH / 2
@@ -55,6 +57,11 @@ class Player(pyglet.sprite.Sprite):
     def update(self, dt):
         super(Player, self).update()
 
+        self.handle_xy_movement(dt)
+        self.handle_z_movement()
+
+        
+    def handle_xy_movement(self, dt):
         # Handle movement
         dpos = util.Vector(0,0)
         if self.key_handler[key.RIGHT] or self.key_handler[key.D]:
@@ -91,16 +98,19 @@ class Player(pyglet.sprite.Sprite):
                 self.world_y += (abs(tiley.y - self.y) - (constants.TILE_SIZE / 2) - (self.height / 2)) * dpos.y
 
             # Trigger move event
-            self.event_move()
-        
+            self.dispatch_event("on_move")
 
-    def on_key_press(self, symbol, modifiers):
-        if symbol == key.Z:
+    def handle_z_movement(self):
+        if self.key_handler[key.Z]:
             self.world_z += 1
-            self.event_move()
-        if symbol == key.X:
+            self.dispatch_event("on_move")
+        if self.key_handler[key.X]:
             self.world_z -= 1
-            self.event_move()
+            self.dispatch_event("on_move")
+    
+    def on_move(self):
+        # TODO: This is being called twice every move, which causes the player to "jump" forward
+        self.terrain.update(self.world_x, self.world_y, self.world_z)
 
     def on_mouse_motion(self, x, y, dx, dy):
         self.rotation = util.angle_between((self.x, self.y), (x, y))

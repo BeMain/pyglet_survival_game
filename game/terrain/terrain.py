@@ -11,10 +11,13 @@ from game.terrain import chunk
 class Terrain():
     instance = None
 
-    class __Terrain():
+    class __Terrain(pyglet.event.EventDispatcher):
         def __init__(self, *args, **kwargs):
-            self.event_tile_update = event.Event()
+            super().__init__(*args, **kwargs)
 
+            self.event_tile_update = event.Event()
+            self.register_event_type("on_update")
+            
             self.chunks = {}
 
         def update(self, player_x, player_y, player_z):
@@ -22,7 +25,7 @@ class Terrain():
 
 
         def on_tile_update(self, chunk_x, chunk_y, chunk_z, tile_x, tile_y):
-            self.event_tile_update(chunk_x, chunk_y, chunk_z, tile_x, tile_y)
+            self.dispatch_event("on_update", chunk_x, chunk_y, chunk_z, tile_x, tile_y)
 
 
         def get_tile(self, world_x, world_y, z):
@@ -54,6 +57,8 @@ class Terrain():
             offset_x = min_x % (constants.CHUNK_SIZE * constants.TILE_SIZE)
             offset_y = min_y % (constants.CHUNK_SIZE * constants.TILE_SIZE)
 
+            print(player_x, player_y)
+
             old_keys = self.chunks.keys() if self.chunks else []
             new_keys = []
 
@@ -66,7 +71,7 @@ class Terrain():
                             c = self.chunks[(x, y, z)]
                         else:
                             c = chunk.Chunk(x, y, z)
-                            c.event_tile_update.append(self.on_tile_update)
+                            c.push_handlers(on_update=self.on_tile_update)
                             self.chunks[(x, y, z)] = c
 
                         c.set_pos((x - chunk_min_x) * constants.CHUNK_SIZE * constants.TILE_SIZE - offset_x,
