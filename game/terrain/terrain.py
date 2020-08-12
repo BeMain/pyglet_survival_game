@@ -57,7 +57,6 @@ class Terrain():
             offset_x = min_x % (constants.CHUNK_SIZE * constants.TILE_SIZE)
             offset_y = min_y % (constants.CHUNK_SIZE * constants.TILE_SIZE)
 
-            print(player_x, player_y)
 
             old_keys = self.chunks.keys() if self.chunks else []
             new_keys = []
