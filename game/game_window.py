@@ -35,12 +35,12 @@ class GameWindow(pyglet.window.Window):
         self.fps_display = self.init_fps_display()
 
         self.game_objects = [self.player]
-
-        # Register event handlers
-        for obj in self.game_objects:
-            for handler in obj.event_handlers:
-                self.push_handlers(handler)
+        self.game_obj_event_handlers = [handler for obj in self.game_objects for handler in obj.event_handlers]
             
+        # Register event handlers
+        self.push_handlers(*self.game_obj_event_handlers)
+        
+
         self.terrain.push_handlers(on_update=self.on_tile_update)
 
         # Init tile.Tile so they can render properly
@@ -89,7 +89,7 @@ class GameWindow(pyglet.window.Window):
         
         elif symbol == key.P:
             # Pause the game
-            self.paused = not self.paused
+            self.set_paused(not self.paused)
 
     def on_mouse_press(self, x, y, button, modifiers):
         x = util.clamp(x, 0, constants.SCREEN_WIDTH)
@@ -124,3 +124,17 @@ class GameWindow(pyglet.window.Window):
 
             event = self.dispatch_events()
             if event: print("Event:", event)
+
+    def set_paused(self, state):
+        if state:
+            # Stop update loop
+            self.paused = True
+
+            # Prevent game from receiving events from pyglet
+            self.pop_handlers()
+        else:
+            # Start update loop
+            self.paused = False
+
+            # Push event handlers
+            self.push_handlers(*self.game_obj_event_handlers)
