@@ -1,5 +1,16 @@
-from game import util
+from game.gui import gui
 
-v = util.Vector(1,1)
+import pyglet
+from pyglet import app
 
-v.normalize()
+import glooey
+
+
+window = pyglet.window.Window()
+
+menu = glooey.Gui(window)
+menu.add(gui.Button("Hej!"))
+
+
+
+app.run()
