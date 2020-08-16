@@ -9,7 +9,9 @@ import glooey
 window = pyglet.window.Window()
 
 menu = glooey.Gui(window)
-menu.add(gui.Button("Hej!"))
+button = gui.Button("Hej på dig du!")
+
+menu.add(button)
 
 
 
