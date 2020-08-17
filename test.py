@@ -1,4 +1,4 @@
-from game.gui import gui, menu
+from game.gui import gui, main_menu
 
 import pyglet
 from pyglet import app
@@ -7,9 +7,9 @@ import glooey
 
 
 window = pyglet.window.Window()
+gui = gui.GuiHandler(window)
 
-menu = menu.MainMenu(window)
-
+gui.open_menu()
 
 
 

@@ -1,6 +1,21 @@
 import glooey
 
-from game.gui import resources
+from game.gui import resources, main_menu
+
+
+class GuiHandler(glooey.Gui):
+    def open_menu(self):
+        menu = main_menu.MainMenu()
+        
+        @menu.event
+        def on_button_click(action):
+            print(action)
+            if action == "continue":
+                self.clear()
+            
+
+        self.add(menu)
+
 
 class WhiteBorder(glooey.Background):
     custom_top = resources.white_border["top"]
