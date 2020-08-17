@@ -9,7 +9,7 @@ import math
 from game import constants, resources, util
 from game.objects import player
 from game.terrain import terrain, tile, data_handler
-from game.gui import building
+from game.gui import gui
 
 
 class GameWindow(pyglet.window.Window):
@@ -29,7 +29,7 @@ class GameWindow(pyglet.window.Window):
         self.objects_group = pyglet.graphics.OrderedGroup(5, parent=self.main_group)
 
         # Objects
-        self.gui = building.Workbench3(self, batch=self.gui_batch)
+        self.gui = gui.GuiHandler(self, batch=self.gui_batch)
         self.terrain = terrain.Terrain()
         self.player = player.Player(batch=self.main_batch, group=self.objects_group)
         self.fps_display = self.init_fps_display()
@@ -40,7 +40,6 @@ class GameWindow(pyglet.window.Window):
         # Register event handlers
         self.push_handlers(*self.game_obj_event_handlers)
         
-
         self.terrain.push_handlers(on_update=self.on_tile_update)
 
         # Init tile.Tile so they can render properly
@@ -56,8 +55,9 @@ class GameWindow(pyglet.window.Window):
         self.clear()
 
         # Draw background
-        #resources.background_image.blit(0,0)
+        resources.background_image.blit(0,0)
 
+        # Draw objects
         self.main_batch.draw()
         self.fps_display.draw()
 
@@ -78,20 +78,17 @@ class GameWindow(pyglet.window.Window):
 
     def on_key_press(self, symbol, modifiers):
         if symbol == key.ESCAPE:
-            # Save chunks
-            for k in self.terrain.chunks:
-                self.terrain.chunks[k].save()
-            # Save player
-            self.player.save()
-
-            # Stop the game
-            self.running = False
+            # Exit the game
+            self.exit()
         
         elif symbol == key.P:
             # Pause the game
             self.set_paused(not self.paused)
 
     def on_mouse_press(self, x, y, button, modifiers):
+        if self.paused:
+            return
+
         x = util.clamp(x, 0, constants.SCREEN_WIDTH)
         y = util.clamp(y, 0, constants.SCREEN_HEIGHT)
 
@@ -109,8 +106,7 @@ class GameWindow(pyglet.window.Window):
         cursor = self.get_system_mouse_cursor(self.CURSOR_CROSSHAIR)
         self.set_mouse_cursor(cursor)
 
-        # First draw
-        resources.background_image.blit(0,0)
+        # Update terrain
         self.terrain.update(self.player.world_x, self.player.world_y, self.player.world_z)
 
         self.last_scheduled_update = time.time()
@@ -132,9 +128,24 @@ class GameWindow(pyglet.window.Window):
 
             # Prevent game from receiving events from pyglet
             self.pop_handlers()
+
+            self.gui.open_menu()
         else:
             # Start update loop
             self.paused = False
 
             # Push event handlers
             self.push_handlers(*self.game_obj_event_handlers)
+
+            self.gui.clear()
+        
+    def exit(self):
+        # Save chunks
+        for k in self.terrain.chunks:
+            self.terrain.chunks[k].save()
+            
+        # Save player
+        self.player.save()
+
+        # Stop the game
+        self.running = False

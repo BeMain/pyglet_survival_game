@@ -9,10 +9,13 @@ class GuiHandler(glooey.Gui):
         
         @menu.event
         def on_button_click(action):
-            print(action)
             if action == "continue":
-                self.clear()
-            
+                self.get_window().set_paused(False)
+            elif action == "exit":
+                self.get_window().exit()
+
+            else: 
+                print("Unknown action:", action)
 
         self.add(menu)
 
@@ -29,7 +32,6 @@ class WhiteBorder(glooey.Background):
     custom_bottom_left = resources.white_border["bl"]
 
 class WhiteFrame(glooey.Frame):
-
     Decoration = WhiteBorder
     
     class Box(glooey.Bin):
