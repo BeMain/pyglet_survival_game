@@ -1,11 +1,11 @@
 import glooey
 
-from game.gui import resources, main_menu
+from game.gui import resources, menus
 
 
 class GuiHandler(glooey.Gui):
     def open_menu(self):
-        menu = main_menu.MainMenu()
+        menu = menus.MainMenu()
         
         @menu.event
         def on_button_click(action):

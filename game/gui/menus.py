@@ -4,13 +4,14 @@ import glooey
 from game import constants
 from game.gui import gui
 
-class MainMenu(glooey.Bin, pyglet.event.EventDispatcher):
+class MainMenu(glooey.Widget, pyglet.event.EventDispatcher):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         # Event
         self.register_event_type("on_button_click")
 
+        # Create frame
         frame = gui.WhiteFrame()
 
         # Create VBox
@@ -25,7 +26,7 @@ class MainMenu(glooey.Bin, pyglet.event.EventDispatcher):
         btn_settings = gui.Button("Settings")
         btn_exit = gui.Button("Exit")
 
-        # Handlers
+        # Event handlers
         @btn_continue.event
         def on_click(widget):
             self.dispatch_event("on_button_click", "continue")
@@ -43,7 +44,13 @@ class MainMenu(glooey.Bin, pyglet.event.EventDispatcher):
         vbox.add(btn_settings)
         vbox.add(btn_exit)
 
-
+        # Add VBox
         frame.add(vbox)
 
-        self.add(frame)
+        # Add frame
+        self._attach_child(frame)
+
+
+class Settings(glooey.Bin, pyglet.event.EventDispatcher):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
