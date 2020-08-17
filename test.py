@@ -1,4 +1,4 @@
-from game.gui import gui
+from game.gui import gui, menu
 
 import pyglet
 from pyglet import app
@@ -8,10 +8,8 @@ import glooey
 
 window = pyglet.window.Window()
 
-menu = glooey.Gui(window)
-button = gui.Button("Hej på dig du!")
+menu = menu.MainMenu(window)
 
-menu.add(button)
 
 
 
