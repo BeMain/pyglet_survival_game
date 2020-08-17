@@ -9,7 +9,7 @@ import math
 from game import constants, resources, util
 from game.objects import player
 from game.terrain import terrain, tile, data_handler
-from game.gui import gui
+from game.gui.handler import GuiHandler
 
 
 class GameWindow(pyglet.window.Window):
@@ -29,7 +29,7 @@ class GameWindow(pyglet.window.Window):
         self.objects_group = pyglet.graphics.OrderedGroup(5, parent=self.main_group)
 
         # Objects
-        self.gui = gui.GuiHandler(self, batch=self.gui_batch)
+        self.gui = GuiHandler(self, batch=self.gui_batch)
         self.terrain = terrain.Terrain()
         self.player = player.Player(batch=self.main_batch, group=self.objects_group)
         self.fps_display = self.init_fps_display()

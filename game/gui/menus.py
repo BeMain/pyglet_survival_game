@@ -1,54 +1,51 @@
 import pyglet
 import glooey
 
-from game import constants
+#from game import constants
 from game.gui import gui
 
+print(gui.WhiteFrame())
+
 class MainMenu(glooey.Widget, pyglet.event.EventDispatcher):
+    Frame = gui.WhiteFrame
+    Button = gui.Button
+    actions = ["Continue", "Settings", "Exit"]
+
+    custom_alignment = "center"
+
+    class VBox(glooey.VBox):
+        custom_alignment = "center"
+        
+        custom_cell_alignment = "center"
+        custom_cell_padding = 20
+
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         # Event
         self.register_event_type("on_button_click")
 
-        # Create frame
-        frame = gui.WhiteFrame()
-
-        # Create VBox
-        vbox = glooey.VBox(3)
-        vbox.alignment = "center"
+        # Create widgets
+        frame = self.Frame()
+        vbox = self.VBox()
         
-        vbox.cell_alignment = "center"
-        vbox.cell_padding = 20
-
         # Create buttons
-        btn_continue = gui.Button("Continue")
-        btn_settings = gui.Button("Settings")
-        btn_exit = gui.Button("Exit")
+        for action in self.actions:
+            vbox.add(self._button(action))
 
-        # Event handlers
-        @btn_continue.event
-        def on_click(widget):
-            self.dispatch_event("on_button_click", "continue")
-
-        @btn_settings.event
-        def on_click(widget):
-            self.dispatch_event("on_button_click", "settings")
-        
-        @btn_exit.event
-        def on_click(widget):
-            self.dispatch_event("on_button_click", "exit")
-
-        # Add buttons
-        vbox.add(btn_continue)
-        vbox.add(btn_settings)
-        vbox.add(btn_exit)
-
-        # Add VBox
+        # Add widgets
         frame.add(vbox)
-
-        # Add frame
         self._attach_child(frame)
+    
+    def _button(self, action):
+        button = self.Button(action)
+
+        @button.event
+        def on_click(widget):
+            self.dispatch_event("on_button_click", action)
+
+        return button
 
 
 class Settings(glooey.Bin, pyglet.event.EventDispatcher):

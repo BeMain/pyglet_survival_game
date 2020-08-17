@@ -1,23 +1,6 @@
 import glooey
 
-from game.gui import resources, menus
-
-
-class GuiHandler(glooey.Gui):
-    def open_menu(self):
-        menu = menus.MainMenu()
-        
-        @menu.event
-        def on_button_click(action):
-            if action == "continue":
-                self.get_window().set_paused(False)
-            elif action == "exit":
-                self.get_window().exit()
-
-            else: 
-                print("Unknown action:", action)
-
-        self.add(menu)
+from game.gui import resources
 
 
 class WhiteBorder(glooey.Background):
