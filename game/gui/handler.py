@@ -32,7 +32,13 @@ class GuiHandler(glooey.Gui):
                 self.get_window().height = constants.SCREEN_HEIGHT
             elif setting == "SCREEN_WIDTH":
                 self.get_window().width = constants.SCREEN_WIDTH
-
+        
+        @menu.event
+        def on_button_click(action):
+            if action == "Back":
+                self.open_menu()
+            if action == "Done":
+                self.get_window().set_paused(False)
 
         self.clear()
         self.add(menu)
