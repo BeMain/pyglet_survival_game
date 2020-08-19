@@ -116,7 +116,7 @@ class GameWindow(pyglet.window.Window):
             if time.time() - self.last_scheduled_update > 1 / constants.FPS:
                 self.update(time.time() - self.last_scheduled_update)
                 self.last_scheduled_update = time.time()
-            self.render()
+                self.render()
 
             event = self.dispatch_events()
             if event: print("Event:", event)

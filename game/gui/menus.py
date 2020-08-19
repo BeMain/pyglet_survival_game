@@ -53,29 +53,34 @@ class Settings(glooey.Widget, pyglet.event.EventDispatcher):
 
     Frame = gui.WhiteFrame
 
-    settings = ["SCREEN_WIDTH", "SCREEN_HEIGHT"]
+    settings = ["SCREEN_WIDTH", "SCREEN_HEIGHT", "FPS"]
 
-    class LabeledInput(glooey.Widget):
+    class LabeledInput(glooey.Widget, pyglet.event.EventDispatcher):
         Label = gui.Label
         EditableLabel = gui.EditableLabel
 
         def __init__(self, setting):
             super().__init__()
 
+            self.register_event_type("on_changed")
+
             self.setting = setting
 
             # Create widgets
             hbox = glooey.HBox()
-            label = self.Label(setting)
+            label = self.Label(self.setting)
 
             # Create edit label
             edit_label = self.EditableLabel()
-            edit_label.text = str(getattr(constants, setting))
+            edit_label.text = str(getattr(constants, self.setting))
 
             @edit_label.event
             def on_unfocus(widget):
-                setattr(constants, setting, int(widget.text))
-                print(getattr(constants, setting))
+                # Set new value
+                setattr(constants, self.setting, int(widget.text))
+
+                # Trigger event
+                self.dispatch_event("on_changed", self.setting)
 
             # Add widgets to hbox
             hbox.pack(label)
@@ -94,12 +99,17 @@ class Settings(glooey.Widget, pyglet.event.EventDispatcher):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+        # Event
+        self.register_event_type("on_setting_changed")
+
         # Create widgets
         frame = self.Frame()
         vbox = self.VBox()
 
         for setting in self.settings:
             label = self.LabeledInput(setting)
+            label.push_handlers(on_changed=lambda s: self.dispatch_event("on_setting_changed", s))
+                
             vbox.add(label)
 
         # Add widgets
