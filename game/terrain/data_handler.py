@@ -3,6 +3,7 @@ import os
 import shutil
 
 from game import constants
+from game.terrain import terrain_generation
 
 
 # Player
@@ -24,7 +25,7 @@ def clear_player_data():
         os.remove(constants.PLAYER_DATA_PATH)
 
 
-# Chunks
+# Read chunk from disc
 def read_chunk(chunk_x, chunk_y, chunk_z):
     path = f"{constants.CHUNKS_PATH}/{chunk_z}/{chunk_x}.{chunk_y}"
     if not os.path.exists(path):
@@ -33,6 +34,7 @@ def read_chunk(chunk_x, chunk_y, chunk_z):
     with open(path, "rb") as readfile:
         return pickle.load(readfile)
 
+# Write chunk to disc
 def write_chunk(chunk_x, chunk_y, chunk_z, chunk):
     if not os.path.exists(f"{constants.CHUNKS_PATH}/{chunk_z}/"):
         os.makedirs(f"{constants.CHUNKS_PATH}/{chunk_z}/")
@@ -40,6 +42,15 @@ def write_chunk(chunk_x, chunk_y, chunk_z, chunk):
     with open(f"{constants.CHUNKS_PATH}/{chunk_z}/{chunk_x}.{chunk_y}", "wb") as writefile:
         pickle.dump(chunk, writefile)
 
+# For loading a chunk. Reads chunk if it exists, otherwise generates a new one
+def load_chunk(chunk_x, chunk_y, chunk_z):
+    c = read_chunk(chunk_x, chunk_y, chunk_z)
+    if not c:
+        c = terrain_generation.generate_chunk(chunk_x, chunk_y, chunk_z)
+    
+    return c
+
+# Remove all chunks
 def clear_chunks():
     print("Clearing chunks")
     if os.path.exists(constants.CHUNKS_PATH):
