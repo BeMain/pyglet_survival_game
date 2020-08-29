@@ -44,9 +44,12 @@ def write_chunk(chunk_x, chunk_y, chunk_z, chunk):
 
 # For loading a chunk. Reads chunk if it exists, otherwise generates a new one
 def load_chunk(chunk_x, chunk_y, chunk_z):
+    # Load chunk from disc
     c = read_chunk(chunk_x, chunk_y, chunk_z)
     if not c:
+        # Generate new chunk
         c = terrain_generation.generate_chunk(chunk_x, chunk_y, chunk_z)
+        write_chunk(chunk_x, chunk_y, chunk_z, c)
     
     return c
 
