@@ -52,7 +52,7 @@ class Settings(glooey.Widget, pyglet.event.EventDispatcher):
     Frame = gui.WhiteFrame
     Button = gui.Button
 
-    settings = ["SCREEN_WIDTH", "SCREEN_HEIGHT", "FPS"]
+    settings = ["FPS"]
 
     class LabeledInput(glooey.Widget, pyglet.event.EventDispatcher):
         Label = gui.Label
