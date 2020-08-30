@@ -9,6 +9,7 @@ import math
 from game import constants, resources, util
 from game.objects import player
 from game.terrain import terrain, tile, data_handler
+from game.gui import pause
 from game.gui.handler import GuiHandler
 
 
@@ -65,11 +66,11 @@ class GameWindow(pyglet.window.Window):
 
         self.flip()
 
+    @pause.pausable
     def update(self, dt):
-        if not self.paused:
-            # Update all objects
-            for obj in self.game_objects:
-                obj.update(dt)
+        # Update all objects
+        for obj in self.game_objects:
+            obj.update(dt)
 
 
     def on_tile_update(self, chunk_x, chunk_y, chunk_z, tile_x, tile_y):
@@ -85,10 +86,8 @@ class GameWindow(pyglet.window.Window):
             # Pause the game
             self.set_paused(not self.paused)
 
+    @pause.pausable
     def on_mouse_press(self, x, y, button, modifiers):
-        if self.paused:
-            return
-
         x = util.clamp(x, 0, constants.SCREEN_WIDTH)
         y = util.clamp(y, 0, constants.SCREEN_HEIGHT)
 
@@ -124,18 +123,12 @@ class GameWindow(pyglet.window.Window):
     def set_paused(self, state):
         if state:
             # Stop update loop
-            self.paused = True
-
-            # Prevent game from receiving events from pyglet
-            self.pop_handlers()
+            pause.paused = True
 
             self.gui.open_menu()
         else:
             # Start update loop
-            self.paused = False
-
-            # Push event handlers
-            self.push_handlers(*self.game_obj_event_handlers)
+            pause.paused = False
 
             self.gui.clear()
         
