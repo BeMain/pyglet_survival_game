@@ -18,7 +18,6 @@ class GameWindow(pyglet.window.Window):
         super(GameWindow, self).__init__(constants.SCREEN_WIDTH,
                                          constants.SCREEN_HEIGHT, vsync=False, *args, **kwargs)
         self.running = True
-        self.paused = False
         self.last_scheduled_update = time.time()
 
         # Batches
@@ -84,7 +83,7 @@ class GameWindow(pyglet.window.Window):
         
         elif symbol == key.P:
             # Pause the game
-            self.set_paused(not self.paused)
+            self.set_paused(not pause.paused)
 
     @pause.pausable
     def on_mouse_press(self, x, y, button, modifiers):
