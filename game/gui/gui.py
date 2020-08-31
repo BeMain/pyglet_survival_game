@@ -1,23 +1,6 @@
 import glooey
 
-from game.gui import resources, main_menu
-
-
-class GuiHandler(glooey.Gui):
-    def open_menu(self):
-        menu = main_menu.MainMenu()
-        
-        @menu.event
-        def on_button_click(action):
-            if action == "continue":
-                self.get_window().set_paused(False)
-            elif action == "exit":
-                self.get_window().exit()
-
-            else: 
-                print("Unknown action:", action)
-
-        self.add(menu)
+from game.gui import resources
 
 
 class WhiteBorder(glooey.Background):
@@ -42,6 +25,7 @@ class WhiteFrame(glooey.Frame):
 
 
 class Label(glooey.Label):
+    custom_font_name = "Lato Regular"
     custom_font_size = 20
     custom_color = "#b9ad86"
     custom_text_alignment = "center"
@@ -50,6 +34,19 @@ class Label(glooey.Label):
     custom_top_padding = 13
     custom_bottom_padding = 10
     custom_alignment = "center"
+
+class EditableLabel(glooey.EditableLabel):
+    custom_font_name = "Lato Regular"
+    custom_font_size = 20
+    custom_color = "#b9ad86"
+    custom_text_alignment = "left"
+    
+    custom_horz_padding = 15
+    custom_top_padding = 13
+    custom_bottom_padding = 10
+    custom_size_hint = 200, 30
+    custom_alignment = "center"
+
 
 class Button(glooey.Button):
     Foreground = Label

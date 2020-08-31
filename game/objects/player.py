@@ -9,14 +9,13 @@ from game.terrain import terrain, data_handler
 from game.objects import physics_object
 
 
-class Player(physics_object.PhysicsObject, pyglet.event.EventDispatcher):
+class Player(pyglet.sprite.Sprite):
     def __init__(self, *args, **kwargs):
         super(Player, self).__init__(img=resources.player_image, *args, **kwargs)
 
         self.terrain = terrain.Terrain()
 
         self.register_event_type("on_move")
-        self.push_handlers(self.on_move)
 
         self.key_handler = key.KeyStateHandler()
         self.event_handlers = [self.key_handler, self.on_mouse_motion]
@@ -55,8 +54,6 @@ class Player(physics_object.PhysicsObject, pyglet.event.EventDispatcher):
 
 
     def update(self, dt):
-        super(Player, self).update()
-
         self.handle_xy_movement(dt)
         self.handle_z_movement()
 
