@@ -106,7 +106,6 @@ class Player(pyglet.sprite.Sprite):
             self.dispatch_event("on_move")
     
     def on_move(self):
-        # TODO: This is being called twice every move, which causes the player to "jump" forward
         self.terrain.update(self.world_x, self.world_y, self.world_z)
 
     def on_mouse_motion(self, x, y, dx, dy):
