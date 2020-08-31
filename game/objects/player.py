@@ -6,7 +6,7 @@ import concurrent.futures
 
 from game import resources, util, constants, event
 from game.terrain import terrain, data_handler
-from game.objects import physics_object
+from game.gui import pause
 
 
 class Player(pyglet.sprite.Sprite):
@@ -108,6 +108,7 @@ class Player(pyglet.sprite.Sprite):
     def on_move(self):
         self.terrain.update(self.world_x, self.world_y, self.world_z)
 
+    @pause.pausable
     def on_mouse_motion(self, x, y, dx, dy):
         self.rotation = util.angle_between((self.x, self.y), (x, y))
 
