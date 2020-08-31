@@ -76,26 +76,37 @@ class Player(pyglet.sprite.Sprite):
             
             speed = self.move_speed * dt
 
-            # Check if tile can be moved to
-            tilex = self.terrain.get_tile(self.world_x + dpos.x * (speed + self.width / 2), self.world_y, self.world_z)
-            tilex_b = self.terrain.get_tile(self.world_x + dpos.x * (speed + self.width / 2), self.world_y, self.world_z - 1)
-            tiley = self.terrain.get_tile(self.world_x, self.world_y + dpos.y * (speed + self.height / 2), self.world_z)
-            tiley_b = self.terrain.get_tile(self.world_x, self.world_y + dpos.y * (speed + self.height / 2), self.world_z - 1)
-            
-            # Test x
-            if tilex.material == 0 and tilex_b.material != 0:
-                self.world_x += dpos.x * speed
-            else:
-                self.world_x += (abs(tilex.x - self.x) - (constants.TILE_SIZE / 2) - (self.width / 2)) * dpos.x
-
-            # Test y
-            if tiley.material == 0 and tiley_b.material != 0:
-                self.world_y += dpos.y * speed
-            else:
-                self.world_y += (abs(tiley.y - self.y) - (constants.TILE_SIZE / 2) - (self.height / 2)) * dpos.y
+            if dpos.x:
+                # Move in x-direction
+                self.move_xory(util.Vector(dpos.x, 0), speed)
+            if dpos.y:
+                # Move in y-direction
+                self.move_xory(util.Vector(0, dpos.y), speed)
 
             # Trigger move event
             self.dispatch_event("on_move")
+
+    def move_xory(self, dpos, speed):
+        tile = self.terrain.get_tile(self.world_x + dpos.x * (speed + self.width / 2), self.world_y + dpos.y * (speed + self.height / 2), self.world_z)
+        tile_b = self.terrain.get_tile(self.world_x + dpos.x * (speed + self.width / 2), self.world_y + dpos.y * (speed + self.height / 2), self.world_z - 1)
+
+        if tile.material == 0 and tile_b.material != 0:
+            # Normal movement
+            self.world_x += dpos.x * speed
+            self.world_y += dpos.y * speed
+        else:
+            # Test if we can move ONTO the next tile
+            tile_a = self.terrain.get_tile(self.world_x + dpos.x * (speed + self.width / 2), self.world_y + dpos.y * (speed + self.height / 2), self.world_z + 1)
+            if tile_a.material == 0:
+                # Move onto the next tile
+                self.world_x += dpos.x * speed
+                self.world_y += dpos.y * speed
+                self.world_z += 1
+            else:
+                # Snap to the edge of the tile
+                self.world_x += (abs(tile.x - self.x) - (constants.TILE_SIZE / 2) - (self.width / 2)) * dpos.x
+                self.world_y += (abs(tile.y - self.y) - (constants.TILE_SIZE / 2) - (self.height / 2)) * dpos.y
+
 
     def handle_z_movement(self):
         if self.key_handler[key.Z]:
