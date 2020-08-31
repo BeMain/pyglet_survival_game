@@ -45,7 +45,7 @@ class Terrain():
                 c = self.chunks[(chunk_x, chunk_y, z)]
             else:
                 # Load the chunk from memory
-                c = data_handler.load_chunk(chunk_x, chunk_y, z)
+                c = chunk.Chunk(chunk_x, chunk_y, z)
             
             tile = c.tiles[tile_x][tile_y]
             return tile

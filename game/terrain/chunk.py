@@ -17,6 +17,7 @@ class Chunk(pyglet.event.EventDispatcher):
         self.chunk_z = chunk_z
 
         self.tiles = []
+        self.load_tiles()
 
     
     def on_tile_update(self, tile_x, tile_y):
