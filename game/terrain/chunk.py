@@ -3,7 +3,7 @@ import concurrent.futures
 import pyglet
 
 from game import event
-from game.terrain import data_handler, terrain_generation, tile, terrain
+from game.terrain import data_handler, terrain_generation, terrain, tile
 
 
 class Chunk(pyglet.event.EventDispatcher):
@@ -18,6 +18,7 @@ class Chunk(pyglet.event.EventDispatcher):
 
         self.tiles = []
         self.load_tiles()
+
     
     def on_tile_update(self, tile_x, tile_y):
         self.dispatch_event("on_update", self.chunk_x, self.chunk_y, self.chunk_z, tile_x, tile_y)
@@ -35,11 +36,7 @@ class Chunk(pyglet.event.EventDispatcher):
                 tile.set_pos(x, y, z)
 
     def load_tiles(self):
-        chunk = data_handler.read_chunk(self.chunk_x, self.chunk_y, self.chunk_z)
-        # If chunk doesn't exist, generate new
-        if not chunk:
-            chunk = terrain_generation.generate_chunk(self.chunk_x, self.chunk_y, self.chunk_z)
-            data_handler.write_chunk(self.chunk_x, self.chunk_y, self.chunk_z, chunk)
+        chunk = data_handler.load_chunk(self.chunk_x, self.chunk_y, self.chunk_z)
 
         # Turn the 3d-list of dicts -> 3d-list of Tiles
         self.tiles = list(map(lambda col: list(map(self.load_tile, col)), chunk))

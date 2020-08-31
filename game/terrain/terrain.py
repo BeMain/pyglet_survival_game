@@ -3,7 +3,7 @@ from pyglet.window import key
 import math
 
 from game import constants, event
-from game.terrain import chunk
+from game.terrain import chunk, data_handler
 
 
 # TODO: Implement zooming in and out
@@ -39,9 +39,17 @@ class Terrain():
             if tile_x == constants.CHUNK_SIZE: tile_x = 0
             if tile_y == constants.CHUNK_SIZE: tile_y = 0
 
-            c = self.chunks[(chunk_x, chunk_y, z)]
+            # Check if requested chunk is loaded
+            if (chunk_x, chunk_y, z) in self.chunks.keys():
+                # Just grab the correct chunk
+                c = self.chunks[(chunk_x, chunk_y, z)]
+            else:
+                # Load the chunk from memory
+                c = chunk.Chunk(chunk_x, chunk_y, z)
+            
             tile = c.tiles[tile_x][tile_y]
             return tile
+        
 
         def update_chunks_on_screen(self, player_x, player_y, player_z):
             min_x = int(player_x - constants.SCREEN_WIDTH // 2)
