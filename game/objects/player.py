@@ -87,6 +87,7 @@ class Player(pyglet.sprite.Sprite):
             self.dispatch_event("on_move")
 
     def move_xory(self, dpos, speed):
+        # TODO: Smooth upward and downward movement
         tile = self.terrain.get_tile(self.world_x + dpos.x * (speed + self.width / 2), self.world_y + dpos.y * (speed + self.height / 2), self.world_z)
         tile_b = self.terrain.get_tile(self.world_x + dpos.x * (speed + self.width / 2), self.world_y + dpos.y * (speed + self.height / 2), self.world_z - 1)
 
