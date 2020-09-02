@@ -1,17 +1,28 @@
 import glooey
 
 from game import constants
-from game.gui import menus
+from game.gui import menus, pause
 
 
 class GuiHandler(glooey.Gui):
-    def open_menu(self):
+    def __init__(self, *args, **kwargs):
+        super(GuiHandler, self).__init__(*args, **kwargs)
+        
+        self.menus = []
+
+    def close_menus(self):
+        pause.paused = False
+        self.clear()
+        self.menus = []
+
+    def open_main_menu(self):
         menu = menus.MainMenu()
+        self.menus.append(menu)
         
         @menu.event
         def on_button_click(action):
             if action == "Continue":
-                self.get_window().set_paused(False)
+                self.close_menus()
             elif action == "Settings":
                 self.open_settings()
             elif action == "Exit":
@@ -19,9 +30,11 @@ class GuiHandler(glooey.Gui):
 
             else: 
                 print("Unknown action:", action)
-        
+
         self.clear()
         self.add(menu)
+
+        pause.paused = True
     
     def open_settings(self):
         menu = menus.Settings()
@@ -36,9 +49,9 @@ class GuiHandler(glooey.Gui):
         @menu.event
         def on_button_click(action):
             if action == "Back":
-                self.open_menu()
+                self.open_main_menu()
             if action == "Done":
-                self.get_window().set_paused(False)
+                self.close_menus()
 
         self.clear()
         self.add(menu)

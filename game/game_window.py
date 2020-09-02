@@ -83,7 +83,10 @@ class GameWindow(pyglet.window.Window):
         
         elif symbol == key.P:
             # Pause the game
-            self.set_paused(not pause.paused)
+            if self.gui.menus:
+                self.gui.close_menus()
+            else:
+                self.gui.open_main_menu()
 
     @pause.pausable
     def on_mouse_press(self, x, y, button, modifiers):
@@ -119,17 +122,6 @@ class GameWindow(pyglet.window.Window):
             event = self.dispatch_events()
             if event: print("Event:", event)
 
-    def set_paused(self, state):
-        if state:
-            # Stop update loop
-            pause.paused = True
-
-            self.gui.open_menu()
-        else:
-            # Start update loop
-            pause.paused = False
-
-            self.gui.clear()
         
     def exit(self):
         # Save chunks
