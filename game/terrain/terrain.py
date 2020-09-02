@@ -88,7 +88,10 @@ class Terrain():
             to_remove = set(old_keys) - set(new_keys)
             for key in to_remove:
                 self.chunks[key].save()
-                self.chunks[key].delete()
+                try:
+                    self.chunks[key].delete()
+                except:
+                    pass
                 del self.chunks[key]
     
     def __init__(self, *args, **kwargs):
