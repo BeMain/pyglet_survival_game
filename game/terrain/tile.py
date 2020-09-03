@@ -40,7 +40,12 @@ class Tile(pyglet.sprite.Sprite):
                 # Air shouldn't be rendered
                 self.batch = None
             else:
-                self.batch = self.BATCH
+                # TODO: Figure out why I'm getting this error
+                try:
+                    self.batch = self.BATCH
+                except:
+                    pass
+                
 
             self.x = new_x
             self.y = new_y
