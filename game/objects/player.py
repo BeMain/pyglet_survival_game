@@ -111,8 +111,9 @@ class Player(pyglet.sprite.Sprite):
                     self.world_y += (abs(tile.y - self.y) - (constants.TILE_SIZE / 2) - (self.height / 2)) * dpos.y
         else:
             # Test if we can move UP to the next tile
+            tile_ab = self.terrain.get_tile(self.world_x, self.world_y, self.world_z + 1)
             tile_a = self.terrain.get_tile(self.world_x + dpos.x * (speed + self.width / 2), self.world_y + dpos.y * (speed + self.height / 2), self.world_z + 1)
-            if tile_a.material == 0:
+            if tile_a.material == 0 and tile_ab.material == 0:
                 # Move up onto the next tile
                 self.world_x += dpos.x * speed
                 self.world_y += dpos.y * speed
