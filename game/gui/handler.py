@@ -1,7 +1,7 @@
 import glooey
 
 from game import constants
-from game.gui import menus, pause
+from game.gui import menus, pause, inventory
 
 
 class GuiHandler(glooey.Gui):
@@ -38,6 +38,7 @@ class GuiHandler(glooey.Gui):
     
     def open_settings(self):
         menu = menus.Settings()
+        self.menus.append(menu)
 
         @menu.event
         def on_setting_changed(setting):
@@ -55,5 +56,11 @@ class GuiHandler(glooey.Gui):
 
         self.clear()
         self.add(menu)
+
+
+    def open_inventory(self):
+        inv = inventory.Inventory()
+
+        self.add(inv)
 
         

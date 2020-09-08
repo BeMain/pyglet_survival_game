@@ -87,6 +87,9 @@ class GameWindow(pyglet.window.Window):
                 self.gui.close_menus()
             else:
                 self.gui.open_main_menu()
+        
+        elif symbol == key.I:
+            self.gui.open_inventory()
 
     @pause.pausable
     def on_mouse_press(self, x, y, button, modifiers):
