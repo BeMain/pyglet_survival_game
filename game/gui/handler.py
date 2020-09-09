@@ -9,6 +9,8 @@ class GuiHandler(glooey.Gui):
         super(GuiHandler, self).__init__(*args, **kwargs)
         
         self.menus = []
+        self.inventory = inventory.Inventory(self)
+        
 
     def close_menus(self):
         pause.paused = False
@@ -57,10 +59,3 @@ class GuiHandler(glooey.Gui):
             if action == "Done":
                 self.close_menus()
 
-
-    def open_inventory(self):
-        inv = inventory.Inventory()
-
-        self.add(inv)
-
-        
