@@ -2,7 +2,6 @@ import concurrent.futures
 
 import pyglet
 
-from game import event
 from game.terrain import data_handler, terrain_generation, terrain, tile
 
 
