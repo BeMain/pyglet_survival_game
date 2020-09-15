@@ -1,13 +1,10 @@
-import pyglet
-import glooey
-
-from game.gui import inventory
+from game import items
 
 
-window = pyglet.window.Window()
-gui = glooey.Gui(window)
+items.load()
+print(items.items)
 
-inv = inventory.Inventory()
-gui.add(inv)
+items.save()
 
-pyglet.app.run()
+items.clear()
+print(items.items)
