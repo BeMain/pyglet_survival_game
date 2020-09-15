@@ -2,7 +2,6 @@ import concurrent.futures
 
 import pyglet
 
-from game import event
 from game.terrain import data_handler, terrain_generation, terrain, tile
 
 
@@ -43,7 +42,7 @@ class Chunk(pyglet.event.EventDispatcher):
 
     def load_tile(self, t_data):
         t = tile.Tile.from_data(t_data)
-        t.event_update.append(self.on_tile_update)
+        t.push_handlers(on_update=self.on_tile_update)
         return t
 
     def to_data(self):

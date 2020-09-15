@@ -1,6 +1,6 @@
 import pyglet
 
-from game import resources, constants, style, event
+from game import resources, constants, style
 
 class Tile(pyglet.sprite.Sprite):
     BATCH = None
@@ -9,7 +9,7 @@ class Tile(pyglet.sprite.Sprite):
     def __init__(self, *args, **kwargs):
         super(Tile, self).__init__(img=resources.tile_image, usage="static", *args, **kwargs)
 
-        self.event_update = event.Event()
+        self.register_event_type("on_update")
 
         self.material = 0
 
@@ -58,7 +58,7 @@ class Tile(pyglet.sprite.Sprite):
             self.batch = self.BATCH
         
         # Trigger update
-        self.event_update(self.tile_x, self.tile_y)
+        self.dispatch_event("on_update", self.tile_x, self.tile_y)
 
     def to_data(self):
         return {
