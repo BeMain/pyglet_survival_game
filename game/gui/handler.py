@@ -19,7 +19,9 @@ class GuiHandler(glooey.Gui):
     
     def _open_menu(self, menu):
         pause.paused = True
+        self.inventory.close()
         self.clear()
+
         self.add(menu)
         self.menus.append(menu)
 
