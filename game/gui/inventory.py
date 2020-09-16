@@ -1,6 +1,8 @@
 import glooey
 
 from game.gui import gui
+from game import items
+
 
 
 class Inventory:

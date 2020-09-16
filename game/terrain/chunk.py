@@ -29,7 +29,7 @@ class Chunk(pyglet.event.EventDispatcher):
         for col in self.tiles:
             for tile in col:
                 # Don't render tile if block above
-                if z < 0 and c_above.tiles[tile.tile_x][tile.tile_y].material != 0:
+                if z < 0 and c_above.tiles[tile.tile_x][tile.tile_y].material != "air":
                     tile.batch = None
 
                 tile.set_pos(x, y, z)

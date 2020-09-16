@@ -25,7 +25,8 @@ def generate_chunk(chunk_x, chunk_y, chunk_z):
         for y in range(constants.CHUNK_SIZE):
             pixel = noise.pnoise3((world_x + x) / freq, (world_y + y) / freq, (world_z) / freq, octaves=octaves) * 0.5 + 0.5
             t_data = {
-                "material": (1 if pixel >= threshold else 0),
+                "value": pixel,
+                "material": ("stone" if pixel >= threshold else "air"),
                 "tile_x": x,
                 "tile_y": y,
             }

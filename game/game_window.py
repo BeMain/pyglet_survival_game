@@ -100,10 +100,10 @@ class GameWindow(pyglet.window.Window):
         world_y = self.player.world_y - constants.SCREEN_HEIGHT / 2 + y
         
         tile = self.terrain.get_tile(world_x, world_y, self.player.world_z)
-        if tile.material == 0:
-            tile.set_material(1)
+        if tile.material == "air":
+            tile.set_material("stone")
         else:
-            tile.set_material(0)
+            tile.set_material("air")
 
     def run(self):
         # Initialization
