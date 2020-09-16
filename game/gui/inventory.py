@@ -1,7 +1,7 @@
 import glooey
 
+from game import items, resources
 from game.gui import gui
-from game import items
 
 
 
@@ -37,13 +37,19 @@ class Inventory:
         num_cols = 5
 
         Grid = glooey.Grid
-        Cell = glooey.Label
+
+        class Cell(glooey.images.Image):
+            def __init__(self, item, *args, **kwargs):
+                image = resources.tile_image if item["texture_id"] == 0 else None
+                super().__init__(image, *args, **kwargs)
+
+                self.item = item
         
 
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
 
-            self.items = [["hej!"] * self.num_rows]* self.num_cols
+            self.items = [[items.items["stone"]] * self.num_rows]* self.num_cols
 
             # Create widgets
             self.grid = self.Grid()
