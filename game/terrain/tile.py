@@ -7,7 +7,7 @@ class Tile(pyglet.sprite.Sprite):
     GROUPS = {}
 
     def __init__(self, *args, **kwargs):
-        super(Tile, self).__init__(img=resources.tile_image, usage="static", *args, **kwargs)
+        super(Tile, self).__init__(img=resources.tiles[0], usage="static", *args, **kwargs)
 
         self.register_event_type("on_update")
 

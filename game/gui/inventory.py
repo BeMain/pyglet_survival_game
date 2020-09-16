@@ -40,7 +40,7 @@ class Inventory:
 
         class Cell(glooey.images.Image):
             def __init__(self, item, *args, **kwargs):
-                image = resources.tile_image if item["texture_id"] == 0 else None
+                image = resources.tiles[item["texture_id"]]
                 super().__init__(image, *args, **kwargs)
 
                 self.item = item
