@@ -1,9 +1,9 @@
 # Alithed
 
-> All you had, all you lost \
-> So high was the cost \
-> It took just a single spark \
-> Now you're alone in the dark
+> Hello survivors, if there are any. \
+> This is an automated message from Ground Control. You have crashed on asteroid E-462. We are sorry to tell you that there is currently no way we can help you or reach you. \
+> From now on, you're on your own. \
+> From now on, you are alithed.
 
 This project is mainly a way for me to get back into python, as well as to learn pyglet. If there ever comes a fully functioning game out of it, that is just a biproduct.
 
