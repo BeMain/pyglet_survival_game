@@ -1,5 +1,10 @@
 # Alithed
 
+> All you had, all you lost \
+> So high was the cost \
+> It took just a single spark \
+> Now you're alone in the dark
+
 This project is mainly a way for me to get back into python, as well as to learn pyglet. If there ever comes a fully functioning game out of it, that is just a biproduct.
 
 Feedback is very much appreciated! I'm in no way a professional programmer, and as I said, I do this for the learning experience.
