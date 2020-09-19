@@ -1,4 +1,4 @@
-# Pyglet Survival Game
+# Alithed
 
 This project is mainly a way for me to get back into python, as well as to learn pyglet. If there ever comes a fully functioning game out of it, that is just a biproduct.
 
