@@ -4,7 +4,7 @@ from pyglet.window import key
 import math
 import concurrent.futures
 
-from game import resources, util, constants, event
+from game import resources, util, constants
 from game.terrain import terrain, data_handler
 from game.gui import pause
 

@@ -2,7 +2,7 @@ import pyglet
 from pyglet.window import key
 import math
 
-from game import constants, event
+from game import constants
 from game.terrain import chunk, data_handler
 
 
@@ -15,7 +15,6 @@ class Terrain():
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
 
-            self.event_tile_update = event.Event()
             self.register_event_type("on_update")
             
             self.chunks = {}
