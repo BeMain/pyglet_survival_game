@@ -1,5 +1,10 @@
 # Alithed
 
+> Hello survivors, if there are any. \
+> This is an automated message from Ground Control. You have crashed on asteroid E-462. We are sorry to tell you that there is currently no way we can help you or reach you. \
+> From now on, you're on your own. \
+> From now on, you are alithed.
+
 This project is mainly a way for me to get back into python, as well as to learn pyglet. If there ever comes a fully functioning game out of it, that is just a biproduct.
 
 Feedback is very much appreciated! I'm in no way a professional programmer, and as I said, I do this for the learning experience.
