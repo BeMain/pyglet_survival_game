@@ -2,6 +2,7 @@ import concurrent.futures
 
 import pyglet
 
+from game import wraps
 from game.terrain import data_handler, terrain_generation, terrain, tile
 
 
@@ -22,7 +23,6 @@ class Chunk(pyglet.event.EventDispatcher):
     def on_tile_update(self, tile_x, tile_y):
         self.dispatch_event("on_update", self.chunk_x, self.chunk_y, self.chunk_z, tile_x, tile_y)
 
-
     def set_pos(self, x, y, z):
         if z < 0:
             c_above = terrain.Terrain().chunks[(self.chunk_x, self.chunk_y, self.chunk_z + 1)]
@@ -35,6 +35,7 @@ class Chunk(pyglet.event.EventDispatcher):
                 tile.set_pos(x, y, z)
 
     def load_tiles(self):
+        # TODO: Needs optimizing
         chunk = data_handler.load_chunk(self.chunk_x, self.chunk_y, self.chunk_z)
 
         # Turn the 3d-list of dicts -> 3d-list of Tiles

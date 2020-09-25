@@ -17,4 +17,4 @@ ITEMS_PATH = "save/items.json"
 
 
 # Debugging constants
-DEBUG_CLEAR_WORLD_ON_STARTUP = False
+DEBUG_CLEAR_WORLD_ON_STARTUP = True
