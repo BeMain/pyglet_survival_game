@@ -1,39 +1,16 @@
-import time
-import threading
-from concurrent.futures import ThreadPoolExecutor
-
-from game.terrain import data_handler, terrain, tile, chunk
-
 import pyglet
 
-def test():
-    size = 20
-    for x in range(size):
-        for y in range(size):
-            for z in range(size):
-                data_handler.load_chunk(x,y,z)
+from game.objects import lighting
 
+l = lighting.LightHandler()
 
-tile.Tile.init_rendering(None, pyglet.graphics.Group())
-t = terrain.Terrain()
-c = chunk.Chunk(0,0,0)
+texture = l.build_lights()
+s = pyglet.sprite.Sprite(img=texture, x=0, y=0)
 
+window = pyglet.window.Window()
 
+@window.event
+def on_draw():
+    s.draw()
 
-start = time.time()
-
-
-#test()
-
-#for i in range(1):
-    #t.update_chunks_on_screen(i*1000,i*1000,i*1000)
-
-
-
-#tp = ThreadPoolExecutor(10)  # max 10 threads
-
-c.load_tiles()
-
-
-
-print(time.time() - start)
+pyglet.app.run()

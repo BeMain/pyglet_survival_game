@@ -41,3 +41,7 @@ background_image.width *= scale_factor
 background_image.height *= scale_factor
 background_image.anchor_x = 0
 background_image.anchor_y = 0
+
+
+light_dimmed = pyglet.resource.image("lights/dimmed.png")
+center_image(light_dimmed)

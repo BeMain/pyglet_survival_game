@@ -7,7 +7,7 @@ import time
 import math
 
 from game import constants, resources, util
-from game.objects import player
+from game.objects import player, lighting
 from game.terrain import terrain, tile, data_handler
 from game.gui import pause
 from game.gui.handler import GuiHandler
@@ -32,6 +32,8 @@ class GameWindow(pyglet.window.Window):
         self.gui = GuiHandler(self, batch=self.gui_batch)
         self.terrain = terrain.Terrain()
         self.player = player.Player(batch=self.main_batch, group=self.objects_group)
+        self.lighting = lighting.LightHandler()
+        
         self.fps_display = self.init_fps_display()
 
         self.game_objects = [self.player]
@@ -62,6 +64,9 @@ class GameWindow(pyglet.window.Window):
         self.fps_display.draw()
 
         self.gui_batch.draw()
+
+        # Render lights
+        self.lighting.draw()
 
         self.flip()
 
